@@ -1,0 +1,9 @@
+extends:
+  - github.com/ctxmod/typescript/context/profiles/core
+title: TypeScript — Tailwind CSS
+description: >-
+  Tailwind CSS v4 projects, extending the TypeScript core with
+  CSS-first configuration and utility conventions.
+packages:
+  add:
+    - v4
