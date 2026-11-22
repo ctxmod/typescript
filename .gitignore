@@ -2,6 +2,7 @@
 !/.gitignore
 !/context/
 !/context.internal/
+!/README.md
 
 # Waste files (nested anywhere, including inside context/)
 .DS_Store

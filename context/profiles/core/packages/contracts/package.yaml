@@ -1,0 +1,3 @@
+description: >-
+  Contract-first architecture, generated clients, code and mocks, OpenAPI consumption, and contract drift gates.
+binds_to_depth: main...
