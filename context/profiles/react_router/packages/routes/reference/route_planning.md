@@ -2,7 +2,7 @@
 
 Workflow for planning route module structure, data requirements, code splitting, and error boundaries.
 
-Procedure for designing route modules before implementation. Route modules in React Router v7 serve as full-stack boundaries encompassing data loading, mutations, UI composition, and error handling. Planning upfront prevents loader waterfalls, missing error boundaries, and oversized route files.
+Procedure for designing route modules before implementation. Route modules in React Router framework mode serve as full-stack boundaries encompassing data loading, mutations, UI composition, and error handling. Planning upfront prevents loader waterfalls, missing error boundaries, and oversized route files.
 
 ## Prerequisites
 
@@ -69,7 +69,7 @@ Use streaming when secondary data takes >100ms and the primary content renders m
 
 ### 4. Plan Code Splitting
 
-React Router v7 framework mode automatically splits code by route. Additional splitting decisions:
+React Router framework mode automatically splits code by route; v8 also splits each route module's exports (`splitRouteModules`, on by default) so `clientLoader` and the component load independently. Additional splitting decisions:
 
 | Content | Approach |
 |---------|----------|
@@ -137,7 +137,7 @@ Route modules under 150 lines stay in a single file. Beyond 150 lines, extract c
 
 ### 7. Generate Types
 
-React Router v7 generates type-safe route types. Configure TypeScript to include generated types:
+React Router generates type-safe route types. Configure TypeScript to include generated types:
 
 ```json
 {
@@ -170,3 +170,7 @@ Use `Route.ComponentProps`, `Route.LoaderArgs`, and `Route.ActionArgs` instead o
 - [ ] Layout nesting matches URL hierarchy
 
 - [Loader and Action Implementation](loader_action.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)

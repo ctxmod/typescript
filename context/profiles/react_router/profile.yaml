@@ -2,7 +2,7 @@ extends:
   - github.com/ctxmod/typescript/context/profiles/core
 title: TypeScript — React Router
 description: >-
-  React Router v7 applications, extending the TypeScript core with
+  React Router framework-mode applications (v8 current), extending the TypeScript core with
   routing-specific conventions: components, route modules,
   internationalization, testing, and Cloudflare Workers deployment.
 packages:

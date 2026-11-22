@@ -2,7 +2,7 @@
 
 Cloudflare Workers deployment patterns for SSR streaming applications.
 
-React Router v7 SSR applications deploy to Cloudflare Workers using the Web Streams API for streaming server-side rendering. The deployment architecture centers on five configuration files and a worker entry point that bridges Cloudflare's runtime with React Router's request handling.
+React Router framework-mode SSR applications deploy to Cloudflare Workers using the Web Streams API for streaming server-side rendering. The deployment architecture centers on five configuration files and a worker entry point that bridges Cloudflare's runtime with React Router's request handling.
 
 - Convention over configuration (engineering module, `principles` profile: `design/reference/convention_over_configuration.md`)
 
@@ -25,19 +25,18 @@ project/
 
 ## Configuration
 
-**react-router.config.ts** enables SSR and future flags:
+**react-router.config.ts** enables SSR:
 
 ```typescript
+import type { Config } from "@react-router/dev/config";
+
 export default {
   ssr: true,
-  future: {
-    v8_middleware: true,
-    v8_splitRouteModules: true,
-  },
-};
+  // splitRouteModules: true is the v8 default — route exports split per module
+} satisfies Config;
 ```
 
-The `v8_middleware` flag enables the middleware API for centralized request processing (i18n, auth). The `v8_splitRouteModules` flag enables route-level code splitting for optimal navigation performance.
+React Router v8 made the former `future.v8_*` flags the behavior: middleware is always on (centralized request processing for i18n and auth), route-module splitting is a top-level `splitRouteModules` option enabled by default, and the Vite Environment API is always used. A v7 application turns each `future.v8_*` flag on and resolves its fallout before upgrading the major.
 
 **vite.config.ts** composes three plugins:
 
@@ -87,21 +86,23 @@ import { createRequestHandler } from "react-router";
 const handler = createRequestHandler(/* build */);
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
-    const response = await handler(request, { env, ctx });
+  async fetch(request, env, ctx) {
+    const routerContext = new RouterContextProvider();
+    routerContext.set(cloudflareContext, { env, ctx });
+    const response = await handler(request, routerContext);
     // Add security headers
     return response;
   },
-};
+} satisfies ExportedHandler<Env>;
 ```
 
-Access Cloudflare platform bindings through the `env` parameter: KV for key-value storage, R2 for object storage, D1 for SQL databases, Durable Objects for stateful coordination. Use a type-safe context getter function with a string key (not Symbol) to avoid mismatch between worker and server bundles.
+Access Cloudflare platform bindings through the typed context (`context.get(cloudflareContext).env`): KV for key-value storage, R2 for object storage, D1 for SQL databases, Durable Objects for stateful coordination. Declare the context with `createContext` in one module that both the worker entry and the route modules import, so both sides hold the same context key; the full entry is in [Cloudflare Workers Deployment](cloudflare_workers.md).
 
 ## Environment Variables
 
 | Scope | Mechanism | Access |
 |-------|-----------|--------|
-| Local development | `.dev.vars` file | `env.VARIABLE_NAME` in loaders |
+| Local development | `.dev.vars` file | `context.get(cloudflareContext).env.VARIABLE_NAME` in loaders |
 | Public (client-visible) | `VITE_*` prefix in `wrangler.jsonc` `vars` | Built into client bundles |
 | Secret (server-only) | Cloudflare Dashboard | `env.SECRET_NAME` in loaders/actions |
 | Build-time | Cloudflare Dashboard build settings | Available during `vite build` |
@@ -147,3 +148,8 @@ Configure bindings in `wrangler.jsonc`. All bindings are available in loaders an
 
 - [Route Module Design](../../routes/reference/route_module_design.md)
 - [Internationalization](../../i18n/reference/internationalization.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)
+- https://reactrouter.com/8.3.1/api/other-api/adapter.md — official Cloudflare entry: `createContext` + `RouterContextProvider` passed to `createRequestHandler` (accessed 2026-11-22)

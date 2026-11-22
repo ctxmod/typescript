@@ -2,7 +2,7 @@
 
 Workflow for implementing loaders and actions with parallel fetching, Zod validation, and mutation patterns.
 
-Procedure for implementing data loading and mutation handling in React Router v7 route modules. Loaders handle GET requests with server-side data fetching. Actions handle POST mutations with automatic revalidation. Both run exclusively on the server, keeping secrets and database access out of client bundles.
+Procedure for implementing data loading and mutation handling in React Router framework-mode route modules. Loaders handle GET requests with server-side data fetching. Actions handle POST mutations with automatic revalidation. Both run exclusively on the server, keeping secrets and database access out of client bundles.
 
 ## Loader Implementation
 
@@ -26,7 +26,7 @@ Identify independent data sources and batch them with `Promise.all()`. Sequentia
 
 ```typescript
 export async function loader({ params, context }: Route.LoaderArgs) {
-  const { env } = context.cloudflare;
+  const { env } = context.get(cloudflareContext);
 
   const [user, products] = await Promise.all([
     db.user.findUnique({ where: { id: params.userId } }),
@@ -93,11 +93,13 @@ Use `throw redirect("/login")` for authentication failures. Redirects skip error
 
 ### 5. Access Cloudflare Bindings
 
-Access KV, R2, D1, and other Cloudflare services through the context parameter:
+Access KV, R2, D1, and other Cloudflare services through the typed context the worker entry seeds (a `createContext` key read with `context.get`; since v8 the server context is always a `RouterContextProvider`, so the v7 `context.cloudflare` property no longer exists):
 
 ```typescript
+import { cloudflareContext } from "@app/cloudflare-context";
+
 export async function loader({ context }: Route.LoaderArgs) {
-  const { env } = context.cloudflare;
+  const { env } = context.get(cloudflareContext);
   const cached = await env.MY_KV.get("cache-key");
   const dbResult = await env.MY_DB.prepare("SELECT * FROM items").all();
   return { cached, items: dbResult.results };
@@ -226,3 +228,8 @@ When both `clientAction` and `action` exist, `clientAction` takes priority. `Hyd
 
 - [Route Module Design](route_module_design.md)
 - [Route Planning](route_planning.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)
+- https://reactrouter.com/how-to/middleware — typed `createContext`, `context.get`/`context.set`, `getLoadContext` returning a `RouterContextProvider` (React Router 8.5.2 docs; accessed 2026-11-22)
