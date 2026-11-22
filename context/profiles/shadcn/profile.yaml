@@ -3,7 +3,7 @@ extends:
 title: TypeScript — shadcn/ui
 description: >-
   The shadcn/ui component library (Base UI or Radix primitives), extending the TypeScript core with
-  component-specific conventions and Ladle stories. Pair it with the
+  component-specific conventions and Storybook stories. Pair it with the
   tailwind profile, whose CSS-first configuration shadcn/ui builds on.
 packages:
   add:

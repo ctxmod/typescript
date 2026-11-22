@@ -1,13 +1,13 @@
 # Story Development
 
-Workflow for creating Ladle stories with controls, decorators, and variant coverage.
+Workflow for creating Storybook stories with controls, decorators, interaction tests, and variant coverage.
 
-Procedure for creating Ladle stories that cover component variants, interactive controls, and edge cases. Stories serve as living documentation and visual test fixtures.
+Procedure for creating Storybook stories that cover component variants, interactive controls, and edge cases. Stories serve as living documentation, visual fixtures, and — through the Vitest addon — executed smoke, interaction, and accessibility tests.
 
 ## Prerequisites
 
 - Component implemented and styled
-- Ladle configured with GlobalProvider and Tailwind integration
+- Storybook configured with the application stylesheet, theme switching, and the a11y and Vitest addons
 - Component's CVA variants identified (if applicable)
 
 ## Development Workflow
@@ -17,68 +17,58 @@ Procedure for creating Ladle stories that cover component variants, interactive 
 Create `{component-name}.stories.tsx` co-located with the component source:
 
 ```tsx
-import type { Story, StoryDefault } from "@ladle/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ComponentName } from "./component-name";
 
-export default {
+const meta = {
   title: "Category/ComponentName",
-} satisfies StoryDefault;
+  component: ComponentName,
+} satisfies Meta<typeof ComponentName>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
 ```
 
-The title prefix reflects the component's category in the navigation tree: `"Interaction/Button"`, `"Form/Input"`, `"Display/Card"`. Ladle generates its sidebar hierarchy from these title paths. String literals are required -- dynamic strings cause build failures.
+The title prefix reflects the component's category in the navigation tree: `"Interaction/Button"`, `"Form/Input"`, `"Display/Card"`. Storybook generates its sidebar hierarchy from these title paths; they must be string literals, since titles are read statically when stories are indexed.
 
 ### 2. Write Default Story
 
-Create an interactive story with args mapping to all variant dimensions:
+Create an interactive story whose args cover every variant dimension:
 
 ```tsx
-export const Default: Story<{
-  variant: "primary" | "secondary" | "ghost";
-  size: "sm" | "md" | "lg";
-  disabled: boolean;
-}> = ({ variant, size, disabled }) => (
-  <ComponentName variant={variant} size={size} disabled={disabled}>
-    Example content
-  </ComponentName>
-);
-
-Default.args = {
-  variant: "primary",
-  size: "md",
-  disabled: false,
-};
-
-Default.argTypes = {
-  variant: { control: { type: "select" } },
-  size: { control: { type: "radio" } },
+export const Default: Story = {
+  args: {
+    variant: "default",
+    size: "default",
+    disabled: false,
+    children: "Example content",
+  },
 };
 ```
 
-This default story provides full interactive exploration through Ladle's Controls panel. Boolean args render as checkboxes automatically. String union args need explicit `control.type` to display as select dropdowns or radio buttons rather than free text.
+Controls are inferred from the component's prop types — booleans as toggles, string unions as selects; add `argTypes` only to override an inferred control (`size: { control: "radio" }`).
 
 ### 3. Add Named Variant Stories
 
 Create one story per meaningful variant combination for quick visual scanning:
 
 ```tsx
-export const Primary: Story = () => (
-  <ComponentName variant="primary">Primary action</ComponentName>
-);
+export const Secondary: Story = {
+  args: { variant: "secondary", children: "Secondary action" },
+};
 
-export const Secondary: Story = () => (
-  <ComponentName variant="secondary">Secondary action</ComponentName>
-);
-
-export const AllSizes: Story = () => (
-  <div className="flex items-center gap-2">
-    <ComponentName size="sm">Small</ComponentName>
-    <ComponentName size="md">Medium</ComponentName>
-    <ComponentName size="lg">Large</ComponentName>
-  </div>
-);
+export const AllSizes: Story = {
+  render: (args) => (
+    <div className="flex items-center gap-2">
+      <ComponentName {...args} size="sm">Small</ComponentName>
+      <ComponentName {...args} size="default">Medium</ComponentName>
+      <ComponentName {...args} size="lg">Large</ComponentName>
+    </div>
+  ),
+};
 ```
 
-Named stories give reviewers a direct reference for each state without toggling controls.
+Named stories give reviewers a direct reference for each state without toggling controls, and each runs as its own smoke and accessibility test.
 
 ### 4. Cover Edge Cases
 
@@ -97,11 +87,12 @@ Each edge case warrants its own exported story. Group related edge cases (e.g., 
 
 ### 5. Add Decorators
 
-Decorators wrap all stories in a file with shared layout or provider context. Define them in the default export:
+Decorators wrap stories with shared layout or provider context, per story or for every story in the file (default export):
 
 ```tsx
-export default {
+const meta = {
   title: "Form/Select",
+  component: Select,
   decorators: [
     (Story) => (
       <div className="max-w-sm">
@@ -109,43 +100,26 @@ export default {
       </div>
     ),
   ],
-} satisfies StoryDefault;
+} satisfies Meta<typeof Select>;
 ```
 
-Common uses: max-width containers for form components, flex layouts for side-by-side comparisons, provider wrappers for context-dependent components. Ladle applies decorators file-wide -- per-story decorators are not supported. For story-specific wrapping, embed the wrapper directly in the story function.
+Common uses: max-width containers for form components, flex layouts for side-by-side comparisons, provider wrappers for context-dependent components. A decorator needed by only one story goes on that story's `decorators`.
 
-### 6. Configure MSW Handlers
+### 6. Add Interaction Tests and API Mocks
 
-For components that fetch data, attach MSW handlers at the story level. Ladle re-exports MSW utilities from `@ladle/react`:
+For interactive components, add a `play` function that drives the story and asserts with `storybook/test` ([Story Patterns](story_patterns.md)). For components that fetch data, attach MSW handlers under `parameters.msw.handlers` (with `msw-storybook-addon` initialized in `.storybook/preview.ts`).
 
-```tsx
-import { msw } from "@ladle/react";
+### 7. Verify in Storybook
 
-export const WithData: Story = () => <DataList />;
-
-WithData.msw = [
-  msw.http.get("/api/items", () =>
-    msw.HttpResponse.json({ items: [{ id: 1, name: "Item" }] })
-  ),
-];
-```
-
-File-level handlers apply to all stories via the default export's `msw` property. Per-story handlers on the `msw` property override file-level handlers for that story. Enable MSW in `.ladle/config.mjs` before using handlers:
-
-```javascript
-export default {
-  addons: { msw: { enabled: true } },
-};
-```
-
-### 7. Verify in Ladle
-
-Run `npm run stories` (or the project's configured Ladle command) and verify:
+Run `npm run storybook` and verify:
 
 - All stories render without console errors
 - Controls produce expected visual changes for interactive stories
-- Dark mode toggle (via Ladle's theme addon) displays correctly
-- Edge case stories behave as intended at various container widths
+- The theme toolbar shows both light and dark themes correctly
+- The accessibility panel reports no violations
+- Edge case stories behave as intended at various viewport widths
+
+Then run the stories as tests (`vitest --project storybook`, or the Storybook testing widget): every story must render, every `play` function must pass, and accessibility checks must pass at the configured level.
 
 ## Validation Checklist
 
@@ -154,12 +128,19 @@ Run `npm run stories` (or the project's configured Ladle command) and verify:
 - [ ] Named stories exist for key variant combinations
 - [ ] Edge cases covered (disabled, loading, empty, error as applicable)
 - [ ] Title matches component category path
-- [ ] Dark mode verified through Ladle's theme toggle
+- [ ] Both themes verified through the theme toolbar
+- [ ] Accessibility checks pass; interactive components have a `play` test
 - [ ] MSW handlers added for data-fetching components
 
-- [Ladle Stories](ladle_stories.md)
-- [Ladle Setup](ladle_setup.md)
+- [Story Patterns](story_patterns.md)
+- [Storybook Setup](storybook_setup.md)
 
 ## Related
 
 - the react_router profile's *Component Testing* reference (`profiles/react_router/packages/testing/reference/component_testing.md`)
+
+## Sources
+
+- https://storybook.js.org/docs/api/csf — CSF 3 meta and story objects, `render`, args, decorators (accessed 2026-11-22)
+- https://storybook.js.org/docs/writing-tests/integrations/vitest-addon — running stories as Vitest tests (docs v10.6; accessed 2026-11-22)
+- https://storybook.js.org/docs/writing-tests/accessibility-testing — `parameters.a11y.test` levels `off`/`todo`/`error` (accessed 2026-11-22)

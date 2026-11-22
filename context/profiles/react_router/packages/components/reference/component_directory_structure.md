@@ -20,7 +20,7 @@ Each component directory contains a fixed set of files:
 | File | Purpose | Required |
 |------|---------|----------|
 | `{component-name}.tsx` | Component implementation | Yes |
-| `{component-name}.stories.tsx` | Ladle stories | Yes |
+| `{component-name}.stories.tsx` | Storybook stories | Yes |
 | `{component-name}.module.css` | CSS module | Only when Tailwind utilities cannot express the style |
 
 No exceptions to this layout. Files that change together stay together. Moving or deleting a component means moving or deleting one directory, and nothing else breaks. Stories never drift from their component because they share the same parent folder.
