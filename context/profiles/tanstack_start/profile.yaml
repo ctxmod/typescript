@@ -1,0 +1,10 @@
+extends:
+  - github.com/ctxmod/typescript/context/profiles/core
+title: TypeScript — TanStack Start
+description: >-
+  TanStack Start full-stack React applications, extending the TypeScript
+  core with file-based routing, rendering-mode, and Vite composition
+  conventions.
+packages:
+  add:
+    - framework
