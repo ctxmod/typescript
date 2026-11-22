@@ -1,0 +1,6 @@
+description: >-
+  Module overview (the reference index, browser-tooling pointer) and the
+  shared architecture glossary: Command, Query, Workflow State, Domain
+  Event, Projection, Action, Receipt, Audit Record, Telemetry, the three
+  idempotency levels, and revisions.
+binds_to_depth: main...

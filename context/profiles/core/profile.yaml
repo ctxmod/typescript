@@ -1,6 +1,14 @@
 title: TypeScript Core
 description: >-
-  Base profile for TypeScript and JavaScript (ECMAScript) development:
-  toolchain, module design and boundaries, contract-first generated
-  clients, frontend authority, localization, and testing. Every
-  framework profile extends this one.
+  Base profile for ECMAScript/TypeScript application development with
+  modern JavaScript patterns: the contract-first application tier that
+  every framework profile specializes rather than restates.
+packages:
+  defaults:
+    - architecture
+    - toolchain
+    - modules
+    - contracts
+    - frontend
+    - localization
+    - testing

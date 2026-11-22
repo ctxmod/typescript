@@ -1,0 +1,3 @@
+description: >-
+  The Biome toolchain, monorepo orchestration, project setup, TypeScript validation, scratch probes, and Vite plugin development.
+binds_to_depth: main...
