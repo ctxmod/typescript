@@ -2,7 +2,7 @@
 
 Route modules as unified full-stack boundaries for data, mutations, UI, and error handling.
 
-Each route module serves as a full-stack boundary encompassing data loading, mutations, UI rendering, and error handling. Route modules are the primary organizational unit in React Router framework mode (v7 and the current v8).
+Each route module serves as a full-stack boundary encompassing data loading, mutations, UI rendering, and error handling. Route modules are the primary organizational unit in React Router v8 (framework mode); the module anatomy below also holds for v7.
 
 - SSOT (engineering module, `principles` profile: `design/reference/ssot.md`)
 - KISS (engineering module, `principles` profile: `design/reference/kiss.md`)

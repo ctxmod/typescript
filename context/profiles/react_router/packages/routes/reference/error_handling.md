@@ -2,7 +2,7 @@
 
 Workflow for implementing route-granular error boundaries, fallback UIs, and server-side error logging.
 
-Procedure for implementing error boundaries in React Router framework-mode route modules. Error boundaries catch failures at the nearest route level, preventing full-page crashes and providing contextual error UIs. This procedure covers route-level boundaries, root fallbacks, error type discrimination, and server-side logging.
+Procedure for implementing error boundaries in React Router v8 (framework mode) route modules. Error boundaries catch failures at the nearest route level, preventing full-page crashes and providing contextual error UIs. This procedure covers route-level boundaries, root fallbacks, error type discrimination, and server-side logging.
 
 ## Error Architecture
 

@@ -2,7 +2,7 @@
 
 Cloudflare Workers deployment patterns for SSR streaming applications.
 
-React Router framework-mode SSR applications deploy to Cloudflare Workers using the Web Streams API for streaming server-side rendering. The deployment architecture centers on five configuration files and a worker entry point that bridges Cloudflare's runtime with React Router's request handling.
+React Router v8 (framework mode) SSR applications deploy to Cloudflare Workers using the Web Streams API for streaming server-side rendering. The deployment architecture centers on five configuration files and a worker entry point that bridges Cloudflare's runtime with React Router's request handling.
 
 - Convention over configuration (engineering module, `principles` profile: `design/reference/convention_over_configuration.md`)
 

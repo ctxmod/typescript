@@ -4,7 +4,7 @@ description: >-
   ts, js, typescript, javascript, es) applications: the Biome
   toolchain, deep modules and enforced boundaries, generated clients
   and drift gates, problem details, and localization. Opt-in framework
-  profiles cover Next.js 16 (nextjs), React Router framework mode (react_router),
+  profiles cover Next.js 16 (nextjs), React Router v8 (framework mode; react_router),
   TanStack Start (tanstack_start), shadcn/ui with Ladle stories
   (shadcn), and Tailwind CSS v4 (tailwind).
 path: github.com/ctxmod/typescript/context

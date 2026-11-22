@@ -1,8 +1,8 @@
 # Cloudflare Workers Deployment
 
-Deployment workflow for React Router framework-mode SSR applications on Cloudflare Workers with streaming, security headers, and binding configuration.
+Deployment workflow for React Router v8 (framework mode) SSR applications on Cloudflare Workers with streaming, security headers, and binding configuration.
 
-Procedure for deploying React Router framework-mode SSR applications (v8, the current major) to Cloudflare Workers. This covers the Worker fetch handler, streaming SSR configuration, security headers, environment variables, Cloudflare binding integration, and deployment workflow.
+Procedure for deploying React Router v8 (framework mode) SSR applications to Cloudflare Workers. This covers the Worker fetch handler, streaming SSR configuration, security headers, environment variables, Cloudflare binding integration, and deployment workflow.
 
 ## Deployment Architecture
 

@@ -1,8 +1,8 @@
 # Environment Setup
 
-Development environment configuration for React Router framework-mode SSR with Cloudflare Workers, Tailwind v4, and TypeScript.
+Development environment configuration for React Router v8 (framework mode) SSR with Cloudflare Workers, Tailwind v4, and TypeScript.
 
-Procedure for configuring a React Router (v8) framework-mode SSR development environment targeting Cloudflare Workers. This covers dependency installation, TypeScript configuration, Tailwind v4 integration, project structure, and Vite build setup.
+Procedure for configuring a React Router v8 (framework mode) SSR development environment targeting Cloudflare Workers. This covers dependency installation, TypeScript configuration, Tailwind v4 integration, project structure, and Vite build setup.
 
 ## Setup Workflow
 

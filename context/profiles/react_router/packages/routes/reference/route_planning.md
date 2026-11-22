@@ -2,7 +2,7 @@
 
 Workflow for planning route module structure, data requirements, code splitting, and error boundaries.
 
-Procedure for designing route modules before implementation. Route modules in React Router framework mode serve as full-stack boundaries encompassing data loading, mutations, UI composition, and error handling. Planning upfront prevents loader waterfalls, missing error boundaries, and oversized route files.
+Procedure for designing route modules before implementation. Route modules in React Router v8 (framework mode) serve as full-stack boundaries encompassing data loading, mutations, UI composition, and error handling. Planning upfront prevents loader waterfalls, missing error boundaries, and oversized route files.
 
 ## Prerequisites
 

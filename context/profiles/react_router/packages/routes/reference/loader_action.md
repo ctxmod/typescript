@@ -2,7 +2,7 @@
 
 Workflow for implementing loaders and actions with parallel fetching, Zod validation, and mutation patterns.
 
-Procedure for implementing data loading and mutation handling in React Router framework-mode route modules. Loaders handle GET requests with server-side data fetching. Actions handle POST mutations with automatic revalidation. Both run exclusively on the server, keeping secrets and database access out of client bundles.
+Procedure for implementing data loading and mutation handling in React Router v8 (framework mode) route modules. Loaders handle GET requests with server-side data fetching. Actions handle POST mutations with automatic revalidation. Both run exclusively on the server, keeping secrets and database access out of client bundles.
 
 ## Loader Implementation
 
