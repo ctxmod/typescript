@@ -38,14 +38,13 @@ Applications targeting bundler environments use `moduleResolution: "bundler"`:
     "moduleResolution": "bundler",
     "rootDir": "src",
     "outDir": "dist",
-    "noEmit": true,
-    "esModuleInterop": true
+    "noEmit": true
   },
   "include": ["src"]
 }
 ```
 
-Set `noEmit: true` when the bundler handles compilation. TypeScript serves as a type checker only; the bundler (Vite, esbuild, webpack) performs the actual transformation and output generation.
+Set `noEmit: true` when the bundler handles compilation. TypeScript serves as a type checker only; the bundler (Vite, esbuild, webpack) performs the actual transformation and output generation. (`esModuleInterop` no longer needs setting: TypeScript 6.0 made `false` an error.)
 
 For Node.js server applications that run without a bundler:
 
@@ -62,7 +61,7 @@ For Node.js server applications that run without a bundler:
 }
 ```
 
-Server applications compile with `tsc` and run the emitted JavaScript directly in Node.js.
+Server applications compile with `tsc` and run the emitted JavaScript directly in Node.js. A server whose source is erasable TypeScript may instead run `node src/index.ts` directly — type stripping is stable on every current LTS line — with `noEmit: true`, `erasableSyntaxOnly: true`, and `.ts` import extensions; `tsc --noEmit` still owns type checking, because Node.js strips types without checking them.
 
 ## Bundler Configuration
 
@@ -84,7 +83,7 @@ export default defineConfig({
 });
 ```
 
-Vite uses esbuild for development transforms and Rollup for production builds. The `resolve.conditions` array controls which `exports` conditions Vite evaluates when resolving workspace packages.
+Since Vite 8 (March 2026) one Rust toolchain does both jobs: Rolldown is the single bundler for development and production, replacing the earlier esbuild-plus-Rollup pair, and Oxc handles transforms and minification. Existing `esbuild` and `build.rollupOptions` settings still load through a compatibility layer, but new configuration targets the Rolldown and Oxc options. The `resolve.conditions` array controls which `exports` conditions Vite evaluates when resolving workspace packages.
 
 ### esbuild (Node.js Applications)
 
@@ -96,7 +95,7 @@ await build({
   entryPoints: ["src/index.ts"],
   bundle: true,
   platform: "node",
-  target: "node20",
+  target: "node22",
   format: "esm",
   outfile: "dist/index.js",
   sourcemap: true,
@@ -147,7 +146,7 @@ For web applications, bundlers inject environment variables at build time throug
 | Web SPA | `vite build` | Static files in `dist/` | CDN/static host |
 | SSR web app | Framework build | Server + client bundles | Node.js server |
 | Node.js API | `tsc` or `esbuild` | JavaScript in `dist/` | Node.js directly |
-| CLI tool | `tsup --format esm` | Single bundled file | Node.js with shebang |
+| CLI tool | `tsdown --format esm` | Single bundled file | Node.js with shebang |
 
 ### Production Dependencies
 
@@ -183,3 +182,10 @@ The `^build` notation means "build all dependencies before building this package
 ## Related
 
 - [Project Setup](../../toolchain/reference/project_setup.md)
+
+## Sources
+
+- https://vite.dev/blog/announcing-vite8 — Vite 8: Rolldown as the single bundler, Oxc compiler, compatibility layer for `esbuild`/`rollupOptions`, Node.js 20.19+/22.12+ (2026-03-12; accessed 2026-11-22)
+- https://nodejs.org/api/typescript.html — stable type stripping, no type checking at runtime (Node.js v26.13.1 docs; accessed 2026-11-22)
+- https://nodejs.org/en/about/previous-releases — v20 EOL; v22/v24/v26 LTS (accessed 2026-11-22)
+- https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/ — `esModuleInterop` can no longer be `false` (2026-03-23; accessed 2026-11-22)
