@@ -1,6 +1,6 @@
 # Native TypeScript Compiler
 
-Adopting TypeScript 7, the native (Go) compiler: what changes for configuration, which tools still need the 6.0 JavaScript API, and how to run both side by side.
+Adopting TypeScript 7, the native (Go) compiler, as the default: configuration valid on both 6.0 and 7.0, and the side-by-side 6.0 API install for tooling until 7.1 ships its API.
 
 TypeScript 7.0 (July 2026) is the native port of the compiler: the same
 language, type checker, and `tsconfig.json` surface, compiled to native code
@@ -39,33 +39,49 @@ values are no longer usable as types (`typeof value`), `@enum` and `@class`
 lose their special meaning, and Closure-style function types are rejected.
 JSDoc-typed codebases budget a migration pass.
 
-## The Programmatic-API Gap
+## The Default Install: TypeScript 7 Plus the 6.0 API Alongside
 
 TypeScript 7.0 ships **no programmatic compiler API**; a new, differently
-shaped API is planned for 7.1 (in beta as of late 2026). Every tool that
-imports the compiler as a library therefore stays on 6.0 until it supports
-the new API: typed linting through typescript-eslint, template checkers built
-on Volar (Vue, Svelte, Astro, MDX), Angular's language service, and
-compiler-API code generators and codemods.
+shaped API arrives with 7.1 (in beta as of late 2026). Tools that import the
+compiler as a library — typed linting through typescript-eslint, template
+checkers built on Volar (Vue, Svelte, Astro, MDX), Angular's language
+service, compiler-API code generators and codemods — need the 6.0 API until
+they support 7.1's.
 
-The sanctioned shape is the side-by-side install the TypeScript team
-recommends: the native compiler for the command-line typecheck, the 6.0 API
-for tools that import `typescript`:
+**The default is both, side by side:** TypeScript 7 is the compiler every
+script and CI leg runs, and the 6.0 API is installed next to it for the tools
+that import `typescript`. Install them with npm aliases, the layout the
+TypeScript team recommends, so `import "typescript"` resolves to the 6.0 API
+while the `tsc` binary is the native compiler:
 
 ```json
 {
   "devDependencies": {
     "@typescript/native": "npm:typescript@^7.0.2",
     "typescript": "npm:@typescript/typescript6@^6.0.2"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
   }
 }
 ```
 
-`@typescript/typescript6` re-exports the 6.0 API and installs its CLI as
-`tsc6`. Record the split beside the manifest — which scripts call the native
-compiler, which tools pin the 6.0 API — and delete the alias when the last
-API consumer supports 7.x. A workspace whose tooling imports no compiler API
-(formatter and linter that do not embed TypeScript) installs 7.x plainly.
+- `@typescript/native` (the aliased `typescript@7`) provides the native `tsc`
+  binary; `tsc --noEmit` and any `tsc` build run TypeScript 7.
+- `typescript` (the aliased `@typescript/typescript6`) re-exports the 6.0 API
+  for library consumers and installs its CLI as `tsc6`, so it never shadows
+  the native `tsc`.
+- In a workspace, pin both aliases once in the `catalog:` table and reference
+  them from each package that needs them.
+- A workspace with no compiler-API consumer at all (formatter and linter that
+  do not embed TypeScript) installs `typescript@^7` under its own name and
+  skips the alias.
+
+**When to drop the 6.0 alias:** once TypeScript 7.1 ships its stable API and
+each API consumer in the workspace has released support for it. Then point
+`typescript` back at `typescript@^7` and remove `@typescript/native` in one
+change. Until then, keep a one-line note beside the manifest naming the
+consumers that still need the 6.0 API.
 
 ## Editors and CI
 
@@ -85,6 +101,6 @@ API consumer supports 7.x. A workspace whose tooling imports no compiler API
 
 ## Sources
 
-- https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/ — 7.0 release, native `tsc` in the `typescript` package, no API, `@typescript/typescript6` side-by-side aliases, moved defaults, JS/JSDoc differences, editor support (2026-07-08; accessed 2026-11-22)
+- https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/ — 7.0 release, recommended npm-alias side-by-side install, native `tsc` in the `typescript` package, no API, `@typescript/typescript6` side-by-side aliases, moved defaults, JS/JSDoc differences, editor support (2026-07-08; accessed 2026-11-22)
 - https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/ — 6.0 as the bridge release: changed defaults, deprecations removed in 7.0, `ignoreDeprecations`, `--stableTypeOrdering` (2026-03-23; accessed 2026-11-22)
 - https://devblogs.microsoft.com/typescript/announcing-typescript-7-1-beta/ — 7.1 beta with the new programmatic API entry points (2026-10-20; accessed 2026-11-22)

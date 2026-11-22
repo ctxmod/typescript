@@ -30,7 +30,7 @@ npx tsc --noEmit
 
 This validates all type relationships without producing output files. In monorepos, run it per package (for example through the workspace task runner). Zero errors is the pass threshold. Enable `strict: true` from project initialization rather than adding it retroactively (it is the default since TypeScript 6.0; keep it explicit).
 
-On TypeScript 7 the same `tsc --noEmit` invocation runs the native compiler; a workspace that keeps the 6.0 API for tooling runs the native binary for this check and records the split ([Native TypeScript Compiler](typescript_native_compiler.md)). A config that still carries a 6.0-deprecated option (`baseUrl`, `moduleResolution: "node"`) fails here on 7.0 — treat that as a configuration failure, not a type error.
+On TypeScript 7 the same `tsc --noEmit` invocation runs the native compiler; with the default side-by-side install the `tsc` binary is the native one and the 6.0 API serves only library consumers ([Native TypeScript Compiler](typescript_native_compiler.md)). A config that still carries a 6.0-deprecated option (`baseUrl`, `moduleResolution: "node"`) fails here on 7.0 — treat that as a configuration failure, not a type error.
 
 ### Module and Resolution Pair Validation
 

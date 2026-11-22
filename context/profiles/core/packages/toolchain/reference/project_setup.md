@@ -14,9 +14,10 @@ Initialize an ECMAScript/TypeScript project with correct module configuration, p
 - pnpm 10+, with pnpm 11 the current major (catalogs, `workspace:` protocol,
   and the supply-chain defaults described in
   [Monorepo Orchestration](monorepo_orchestration.md)).
-- TypeScript 6.0+ or 7.x. TypeScript 7 is the native (Go) compiler shipped as
-  the ordinary `typescript` package's `tsc`; 6.0 is the last JavaScript-based
-  release and the bridge to it. Write configuration that is valid on both — see
+- TypeScript 7.x as the compiler — the native (Go) compiler shipped as the
+  ordinary `typescript` package's `tsc` — with the TypeScript 6.0 API
+  installed alongside (npm alias) for tooling that imports the compiler API,
+  until TypeScript 7.1 ships its API. Configuration stays valid on both — see
   [Native TypeScript Compiler](typescript_native_compiler.md).
 
 ## Steps
@@ -172,7 +173,8 @@ packages:
   - "apps/*"
   - "packages/*"
 catalog:
-  typescript: ^7.0.2
+  "@typescript/native": npm:typescript@^7.0.2       # native tsc
+  typescript: npm:@typescript/typescript6@^6.0.2    # 6.0 API for tooling
 ```
 
 Shared versions live in the `catalog:` table and manifests reference them as
@@ -238,8 +240,23 @@ Reference workspace packages with the `workspace:` protocol:
 Install shared dev dependencies at the workspace root:
 
 ```bash
-pnpm add -Dw typescript tsdown
+pnpm add -Dw tsdown
 ```
+
+and reference the catalog pins from the root manifest:
+
+```json
+{
+  "devDependencies": {
+    "@typescript/native": "catalog:",
+    "typescript": "catalog:"
+  }
+}
+```
+
+The two TypeScript entries are the default side-by-side install (native
+`tsc` plus the 6.0 API for tooling); see
+[Native TypeScript Compiler](typescript_native_compiler.md).
 
 Install package-specific dependencies using `--filter`:
 

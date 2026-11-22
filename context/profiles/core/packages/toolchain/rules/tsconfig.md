@@ -24,7 +24,7 @@ keep `strict` and `verbatimModuleSyntax` on, add `erasableSyntaxOnly` where
 code runs under type stripping, and state the defaults TypeScript 6.0 moved
 (`types`, `rootDir`). No 6.0-deprecated option (`baseUrl`,
 `moduleResolution: "node"`, `target: "es5"`) survives anywhere in the
-`extends` chain — TypeScript 7 rejects them.
+`extends` chain — TypeScript 7 rejects them. The compiler is TypeScript 7, with the 6.0 API installed alongside for tooling until 7.1 ships its API.
 
 - [Project Setup](../reference/project_setup.md)
 - [TypeScript Validation](../reference/typescript_validation.md)
