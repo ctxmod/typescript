@@ -17,6 +17,26 @@ one package stay in that manifest; the catalog is for shared pins, not for
 centralizing everything. Generated lockfile state stays derived — the catalog
 is the reviewed input.
 
+### Package-Manager Defaults That Shape the Workspace
+
+pnpm 11 (Node.js 22+) moves pnpm-specific settings out of `.npmrc` (which
+keeps only registry and auth) into `pnpm-workspace.yaml` beside the catalog,
+and turns supply-chain protection on by default:
+
+- **`minimumReleaseAge: 1440`** — a version is not resolved until it has
+  been published for a day. Keep the default; an exception for a specific
+  package is a reviewed workspace-file entry, and automated dependency
+  bumps that fail on a just-published transitive version wait out the
+  window rather than disabling it.
+- **`strictDepBuilds: true`** and **`allowBuilds`** — dependency lifecycle
+  scripts do not run unless allowlisted; `allowBuilds` replaces the removed
+  `onlyBuiltDependencies`/`ignoredBuiltDependencies` settings.
+- **`blockExoticSubdeps: true`** — transitive dependencies may not resolve
+  from git or tarball URLs.
+
+The workspace file is therefore the reviewed input for both version pins
+and install policy; per-package `.npmrc` copies are a drift source.
+
 ## Orchestrator Choice: Graph-Based versus Minimal-Cache
 
 A task orchestrator gives the workspace a dependency graph over
@@ -61,3 +81,8 @@ duplicated task definitions.
 
 - [Module Organization](../../modules/reference/module_organization.md)
 - [Biome-First Toolchain](biome_toolchain.md)
+
+## Sources
+
+- https://pnpm.io/blog/releases/11.0 — pnpm 11: Node.js 22+, settings in `pnpm-workspace.yaml`, `minimumReleaseAge` 1440, `strictDepBuilds`, `blockExoticSubdeps`, `allowBuilds` replacing `onlyBuiltDependencies` (accessed 2026-11-22)
+- https://pnpm.io/catalogs — the `catalog:` protocol (accessed 2026-11-22)
