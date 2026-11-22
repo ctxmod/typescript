@@ -92,7 +92,7 @@ consumers that still need the 6.0 API.
   of adoption, so the leg stops being the slow tier and can run on every
   change.
 - Linters with their own type-aware engines track the native compiler
-  directly (see [Biome-First Toolchain](biome_toolchain.md)).
+  directly (see [Fast Toolchain: Biome or Oxlint](fast_toolchain.md)).
 
 ## Related
 

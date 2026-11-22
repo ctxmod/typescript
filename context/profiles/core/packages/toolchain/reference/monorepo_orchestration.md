@@ -80,7 +80,7 @@ duplicated task definitions.
 ## Related
 
 - [Module Organization](../../modules/reference/module_organization.md)
-- [Biome-First Toolchain](biome_toolchain.md)
+- [Fast Toolchain: Biome or Oxlint](fast_toolchain.md)
 
 ## Sources
 
