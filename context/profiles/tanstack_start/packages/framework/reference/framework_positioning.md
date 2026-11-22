@@ -29,11 +29,17 @@ oversight.
 
 ## The RSC Gap, Framed
 
-Full React Server Component support is not complete; frameworks that
-center on RSC position it as their core. Accepting that gap is deliberate
-when the application's rendering needs are met by the supported
-rendering modes — server rendering, data-only routes, and client
-islands cover the common shapes without RSC's streaming component model.
+TanStack Start 1.0 is stable (October 2026), and its React Server
+Component support is an opt-in integration that is still experimental —
+enabled per application (`rsc: { enabled: true }` in the `tanstackStart()`
+plugin options, plus `@vitejs/plugin-rsc` on Vite 8+ or Rsbuild 2+) and
+deliberately not the framework's core rendering model. Frameworks that
+center on RSC position it as their core. Not adopting it is deliberate
+when the application's rendering needs are met by the stable rendering
+modes — server rendering, data-only routes, and client-only routes cover
+the common shapes without RSC's streaming component model. Adopting the
+experimental integration is likewise a recorded decision, scoped to the
+routes that need it, with its stabilization as the revisit trigger.
 
 The framing to carry in the repository: state what is deferred, why the
 supported modes suffice for the current product shape, and the integration
@@ -54,3 +60,8 @@ archaeology.
 
 - [Routing](routing.md)
 - [Rendering Modes](rendering_modes.md)
+
+## Sources
+
+- https://tanstack.com/blog/tanstack-start-1-0 — TanStack Start 1.0 stable and production-ready; `createServerFn`; Vite and Nitro for hosting, Rsbuild support (2026-10-13; accessed 2026-11-22)
+- https://tanstack.com/start/latest/docs/framework/react/guide/server-components — Server Components experimental "into early v1": `rsc: { enabled: true }`, `@vitejs/plugin-rsc`, React 19+, Vite 8+ or Rsbuild 2+ (accessed 2026-11-22)
