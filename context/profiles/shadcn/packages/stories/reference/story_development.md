@@ -157,8 +157,8 @@ Run `npm run stories` (or the project's configured Ladle command) and verify:
 - [ ] Dark mode verified through Ladle's theme toggle
 - [ ] MSW handlers added for data-fetching components
 
-[Ladle Stories](ladle_stories.md)
-[Ladle Setup](ladle_setup.md)
+- [Ladle Stories](ladle_stories.md)
+- [Ladle Setup](ladle_setup.md)
 
 ## Related
 

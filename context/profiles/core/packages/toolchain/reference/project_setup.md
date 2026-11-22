@@ -4,7 +4,7 @@ ECMAScript project initialization and configuration for TypeScript.
 
 Initialize an ECMAScript/TypeScript project with correct module configuration, package.json exports, and optional PNPM workspace structure. These steps apply to both standalone packages and monorepo setups.
 
-[Module Organization](../../modules/reference/module_organization.md)
+- [Module Organization](../../modules/reference/module_organization.md)
 
 ## Prerequisites
 
@@ -210,7 +210,7 @@ pnpm tsup                       # Build produces expected output
 node dist/index.js              # Runtime execution works (Node.js target)
 ```
 
-[TypeScript Validation](typescript_validation.md)
+- [TypeScript Validation](typescript_validation.md)
 
 ## Decision Support
 

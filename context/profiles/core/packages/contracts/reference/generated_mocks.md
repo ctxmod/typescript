@@ -10,7 +10,7 @@ Procedure for proving the browser interface behaves honestly in every state it c
 - The mock tree sits inside the drift gate's target list.
 - Whatever form checks the interface mounts real view composition — not a flattened stand-in for it — against the generated hooks and mutators.
 
-[Generated Clients](generated_clients.md)
+- [Generated Clients](generated_clients.md)
 
 ## Validation Workflow
 
@@ -18,11 +18,11 @@ Procedure for proving the browser interface behaves honestly in every state it c
 
 Every request and response shape in the suite comes from the generated handlers. A hand-shaped mock payload is a second author of the wire shape — contract duplication with the same failure mode as a hand-written fetch wrapper — and is prohibited on the same terms. A mock fixture that lags the contract is drift: it fails the same gate, and the remedy is regeneration.
 
-[Contract Drift Gates](contract_drift_gates.md)
+- [Contract Drift Gates](contract_drift_gates.md)
 
 The boundary with test-data partials is the transport: hand-shaped **wire** payloads stay prohibited (the generated handler is the only author of a wire shape), while `fromPartial`-style partials serve **unit-test function arguments** where no wire shape exists. The two rules are complements, not exceptions: the generated handler owns every shape crossing the transport; a partial builder owns an argument object the test constructs under its own control.
 
-[Test-Data Partials](../../testing/reference/test_data_partials.md)
+- [Test-Data Partials](../../testing/reference/test_data_partials.md)
 
 ### 2. Drive every honest state class
 
@@ -41,7 +41,7 @@ Enumerate states as rendering responsibilities, not as one product's screens. Ev
 
 The three failure kinds stay distinguishable because they call for different actions, and a mock-driven suite is the only place all three can be produced on demand.
 
-[Problem Details](../../frontend/reference/problem_details.md)
+- [Problem Details](../../frontend/reference/problem_details.md)
 
 ### 3. Run the mutation tests
 
@@ -61,7 +61,7 @@ Name these stale-`workflow_revision` mutation tests. The identifier is the asser
 
 Read-model-driven views are tested with scripted Projection-update sequences played through the subscription path: an ordered run of updates with increasing `projection_revision`, then a deliberately out-of-order update whose older `projection_revision` must be discarded rather than rendered. Assert the discarded update changed nothing visible — the interface did not walk backwards through states the workflow has already left — and that the subscription is torn down when the view unmounts.
 
-[Live Read Model](../../frontend/reference/live_read_model.md)
+- [Live Read Model](../../frontend/reference/live_read_model.md)
 
 ### 6. Run the keyboard and accessibility smoke pass
 
@@ -86,4 +86,4 @@ Keyboard traversal, focus, and contrast smoke coverage runs over the major state
 
 **The out-of-order update renders**: the discarding comparison must run before the update reaches anything visible.
 
-[Generated-Code Discipline](generated_code_discipline.md)
+- [Generated-Code Discipline](generated_code_discipline.md)

@@ -4,7 +4,7 @@ Application structure, bundling, and deployment for ECMAScript/TypeScript.
 
 Structure, build, and deploy ECMAScript/TypeScript applications. Applications differ from packages: they are deployable artifacts rather than importable libraries, they use bundlers for optimization, and their `exports` field serves development tooling rather than external consumers.
 
-[Module Organization](module_organization.md)
+- [Module Organization](module_organization.md)
 
 ## Application Structure
 

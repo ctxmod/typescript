@@ -8,7 +8,7 @@ Procedure for building unit-test function arguments that satisfy the compiler wh
 
 This procedure covers **unit-test function arguments** where no wire shape exists: an argument object the test constructs under its own control and passes straight to a function. Where a test needs request or response data that crosses a transport boundary, the generated mock handlers remain the only author of the wire shape and hand-shaped payloads stay prohibited. The two rules are complements, not exceptions.
 
-[Generated Mock Validation](../../contracts/reference/generated_mocks.md)
+- [Generated Mock Validation](../../contracts/reference/generated_mocks.md)
 
 ## Why `as` fails in tests
 
@@ -68,4 +68,4 @@ npm i @total-typescript/shoehorn
 3. **Add the imports** from `@total-typescript/shoehorn` to each migrated file.
 4. **Verify**: run the type check — `tsc --noEmit` (or the project's `typecheck` script), per the typescript-validation reference. Zero errors completes the migration. The check is a step the migration claim needs, run on demand; it is never an automatic gate watching for casts.
 
-[TypeScript Validation](../../toolchain/reference/typescript_validation.md)
+- [TypeScript Validation](../../toolchain/reference/typescript_validation.md)

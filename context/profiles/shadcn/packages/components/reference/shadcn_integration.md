@@ -97,4 +97,4 @@ Two strategies cover most customization needs. Wrapping handles the majority of 
 
 - SSOT (engineering module, `principles` profile: `design/reference/ssot.md`)
 the react_router profile's *Component Composition* reference (`profiles/react_router/packages/components/reference/component_composition.md`)
-[Design Token Architecture](design_token_architecture.md)
+- [Design Token Architecture](design_token_architecture.md)

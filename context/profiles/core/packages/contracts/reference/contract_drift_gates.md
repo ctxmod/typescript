@@ -6,7 +6,7 @@ Procedure for proving committed generated output is exactly what the contract so
 
 The principle the gate enforces — the four properties of generated output and the two editing prohibitions — is owned by the generated-code discipline reference. This procedure owns the mechanics.
 
-[Generated-Code Discipline](generated_code_discipline.md)
+- [Generated-Code Discipline](generated_code_discipline.md)
 
 ## The Gate
 
@@ -90,8 +90,8 @@ The change is not complete until each assertion holds:
 
 **Drift confined to the bundle**: the source graph resolved differently. Check for a remote or registry reference that crept in; the contract must bundle offline from the repository alone.
 
-[OpenAPI Consumption](openapi_consumption.md)
-[TypeScript Validation](../../toolchain/reference/typescript_validation.md)
+- [OpenAPI Consumption](openapi_consumption.md)
+- [TypeScript Validation](../../toolchain/reference/typescript_validation.md)
 
 ## Related
 

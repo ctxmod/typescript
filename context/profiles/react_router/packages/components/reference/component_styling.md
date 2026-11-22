@@ -40,7 +40,7 @@ Common semantic token mappings:
 | Borders | `--color-border` | `border-border` |
 | Focus ring | `--color-ring` | `ring-ring` |
 
-[Styling Philosophy](styling_philosophy.md)
+- [Styling Philosophy](styling_philosophy.md)
 
 Deeper token-layer mechanics -- the full static/bridge/theme token pipeline and shadcn-specific theming -- live in the shadcn-side companion doc (the shadcn profile's *Design Token Architecture* reference (`profiles/shadcn/packages/components/reference/design_token_architecture.md`), shadcn tier); consult it only when the application also uses shadcn components.
 

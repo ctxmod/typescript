@@ -84,7 +84,7 @@ This split enables independent testing: presentation components test with prop a
 
 Organize shared components using the directory-per-component pattern with functional categorization. Each component lives in its own directory containing its implementation, tests, stories, and optional CSS module.
 
-[Component Directory Structure](component_directory_structure.md)
+- [Component Directory Structure](component_directory_structure.md)
 
 Route-specific components live alongside route modules. Extract to shared component directories only when three or more routes use the same component.
 

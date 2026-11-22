@@ -26,4 +26,4 @@ Proxy.ts middleware, next.config.ts configuration, and instrumentation startup c
 
 Next.js 16 uses `proxy.ts` (not `middleware.ts`) with `export const proxy = ...` (not `export default`). Proxy runs on Node.js runtime only; no `export const runtime` is available. Always configure a matcher to exclude static assets. `instrumentation.ts` runs on every runtime — guard native module imports behind `process.env.NEXT_RUNTIME === "nodejs"` with dynamic import. `next.config.ts` uses `output: "standalone"` for containerized deployments and `serverExternalPackages` for native modules.
 
-[Proxy, Configuration, and Instrumentation](../reference/proxy_config.md)
+- [Proxy, Configuration, and Instrumentation](../reference/proxy_config.md)

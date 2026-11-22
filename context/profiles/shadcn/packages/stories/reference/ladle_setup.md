@@ -120,7 +120,7 @@ export default {
 
 Ladle handles service worker setup automatically. Stories define per-story handlers using the `msw` export property, with `msw.http` for REST and `msw.graphql` for GraphQL endpoints.
 
-[Ladle Stories](ladle_stories.md)
+- [Ladle Stories](ladle_stories.md)
 the react_router profile's *Component Directory Structure* reference (`profiles/react_router/packages/components/reference/component_directory_structure.md`)
 
 ## Related

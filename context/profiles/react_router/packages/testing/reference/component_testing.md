@@ -36,7 +36,7 @@ tests/
 
 Story files (`.stories.tsx`) still co-locate with their component. Stories serve as visual fixtures for verifying variant rendering and dark mode, complementing the executed checks.
 
-[Component Directory Structure](../../components/reference/component_directory_structure.md)
+- [Component Directory Structure](../../components/reference/component_directory_structure.md)
 
 ### Test Types and Scope
 
@@ -68,7 +68,7 @@ function UserProfile() {
 }
 ```
 
-[Testability](testability.md)
+- [Testability](testability.md)
 
 ### 2. Create Test Doubles
 

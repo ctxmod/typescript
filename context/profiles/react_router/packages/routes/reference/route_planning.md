@@ -31,7 +31,7 @@ Each route module owns one URL segment and its associated data. Determine what t
 
 Server-only exports (`loader`, `action`) are stripped from client bundles automatically. Route modules act as glue: they wire data to components. Push presentational and feature logic into colocated components.
 
-[Route Module Design](route_module_design.md)
+- [Route Module Design](route_module_design.md)
 
 ### 2. Identify Data Dependencies
 
@@ -111,7 +111,7 @@ Map error types to responses:
 | Server error | Unhandled exception | 500 | Generic error with retry |
 | Bot timeout | AbortController timeout | 504 | Minimal error HTML |
 
-[Route Error Handling](error_handling.md)
+- [Route Error Handling](error_handling.md)
 
 ### 6. Plan File Organization
 
@@ -169,4 +169,4 @@ Use `Route.ComponentProps`, `Route.LoaderArgs`, and `Route.ActionArgs` instead o
 - [ ] Generated `Route.*` types used throughout
 - [ ] Layout nesting matches URL hierarchy
 
-[Loader and Action Implementation](loader_action.md)
+- [Loader and Action Implementation](loader_action.md)

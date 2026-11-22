@@ -4,7 +4,7 @@ Building and publishing ECMAScript packages with optional dual CJS support.
 
 Build, configure, and publish ECMAScript/TypeScript packages. This procedure covers ESM-only packages, dual ESM/CJS packages, and internal monorepo packages that skip compilation during development.
 
-[Module Organization](module_organization.md)
+- [Module Organization](module_organization.md)
 
 ## ESM-Only Package
 
@@ -190,7 +190,7 @@ Before publishing, verify:
 - [ ] Build output matches all declared export paths
 - [ ] `pnpm pack --dry-run` shows expected files
 
-[TypeScript Validation](../../toolchain/reference/typescript_validation.md)
+- [TypeScript Validation](../../toolchain/reference/typescript_validation.md)
 
 ## Related
 

@@ -111,4 +111,4 @@ Use OKLCH for all color definitions. OKLCH provides perceptually uniform lightne
 
 - Convention over configuration (engineering module, `principles` profile: `design/reference/convention_over_configuration.md`)
 the react_router profile's *Styling Philosophy* reference (`profiles/react_router/packages/components/reference/styling_philosophy.md`)
-[shadcn/ui Integration](shadcn_integration.md)
+- [shadcn/ui Integration](shadcn_integration.md)

@@ -7,6 +7,6 @@ functions, a lean throughput profile, and explicit control over implicit
 framework behavior — accepted against ecosystem features not yet supported,
 framed with the rationale and the integration path for when support lands.
 
-[Framework Positioning](../reference/framework_positioning.md)
-[Routing](../reference/routing.md)
-[Rendering Modes](../reference/rendering_modes.md)
+- [Framework Positioning](../reference/framework_positioning.md)
+- [Routing](../reference/routing.md)
+- [Rendering Modes](../reference/rendering_modes.md)

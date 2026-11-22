@@ -68,7 +68,7 @@ application is exercised through that vehicle, never through a bespoke
 per-application development script. The vehicle's construction and
 verification posture are owned by the plugin-development skill:
 
-[Develop a Vite Plugin](../../../../core/packages/toolchain/skills/develop_vite_plugin/SKILL.md)
+- [Develop a Vite Plugin](../../../../core/packages/toolchain/skills/develop_vite_plugin/SKILL.md)
 
 ## One Factory, Every Fragment, One Gate
 
@@ -124,7 +124,7 @@ decided against configuration first, package structure second, hook
 channel third, guard tests fourth — the development procedure is the es
 skill, which sequences it:
 
-[Develop a Vite Plugin](../../../../core/packages/toolchain/skills/develop_vite_plugin/SKILL.md)
+- [Develop a Vite Plugin](../../../../core/packages/toolchain/skills/develop_vite_plugin/SKILL.md)
 
 ## Where the Rest Lives
 

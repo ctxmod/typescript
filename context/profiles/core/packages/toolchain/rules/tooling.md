@@ -24,4 +24,4 @@ tool, not in review. The legacy linter returns only where a niche plugin rule
 family has no equivalent — scoped to the packages that need it, documented,
 and deleted when coverage lands.
 
-[Biome-First Toolchain](../reference/biome_toolchain.md)
+- [Biome-First Toolchain](../reference/biome_toolchain.md)

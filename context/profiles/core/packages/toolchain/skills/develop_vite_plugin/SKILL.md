@@ -183,16 +183,16 @@ surface or move the responsibility out of the plugin.
 
 ### Generated-code authority and the pinned toolchain behind the plugin's own output
 
-[Generated-Code Discipline](../../../contracts/reference/generated_code_discipline.md) (required reading)
+- [Generated-Code Discipline](../../../contracts/reference/generated_code_discipline.md) (required reading)
 
 ### Package structure, exports, and publishing within the workspace
 
-[Package Development](../../../modules/reference/package_development.md) (required reading)
+- [Package Development](../../../modules/reference/package_development.md) (required reading)
 
 ### Compose, never duplicate — the boundary rule behind composition-only presets
 
-[Contract-First Architecture](../../../contracts/reference/contract_first_architecture.md) (required reading)
+- [Contract-First Architecture](../../../contracts/reference/contract_first_architecture.md) (required reading)
 
 ### Workspace wiring and the exports field
 
-[Module Organization](../../../modules/reference/module_organization.md)
+- [Module Organization](../../../modules/reference/module_organization.md)

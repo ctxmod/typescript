@@ -220,7 +220,7 @@ When both `clientAction` and `action` exist, `clientAction` takes priority. `Hyd
 - [ ] State-changing operations use POST actions, never loaders
 - [ ] Generated `Route.*` types used throughout
 
-[Route Error Handling](error_handling.md)
+- [Route Error Handling](error_handling.md)
 
 ## Related
 

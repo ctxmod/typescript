@@ -30,5 +30,5 @@ The orchestrator posture (graph-based suite or minimal-cache layer) is a
 deliberate, recorded choice; task caching is only as sound as the declared
 task inputs.
 
-[Monorepo Orchestration](../reference/monorepo_orchestration.md)
-[Module Organization](../../modules/reference/module_organization.md)
+- [Monorepo Orchestration](../reference/monorepo_orchestration.md)
+- [Module Organization](../../modules/reference/module_organization.md)

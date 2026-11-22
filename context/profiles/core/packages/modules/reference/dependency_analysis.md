@@ -4,7 +4,7 @@ Validate ECMAScript dependency patterns, circular imports, and export encapsulat
 
 Validate dependency health in ECMAScript/TypeScript projects: detect circular imports, verify export encapsulation, identify unused exports, enforce workspace protocol usage, and check for dual package hazards.
 
-[Module Organization](module_organization.md)
+- [Module Organization](module_organization.md)
 
 ## Checks
 
@@ -133,13 +133,13 @@ steps:
 
 Place circular import detection early in the pipeline. Cycles indicate structural problems that affect all downstream checks.
 
-[TypeScript Validation](../../toolchain/reference/typescript_validation.md)
+- [TypeScript Validation](../../toolchain/reference/typescript_validation.md)
 
 ## Complementary boundary tooling
 
 Dependency-cruiser enforces the complementary source-tree boundary concern — a package's entry points public, its subfolders private — and its `no-circular` rule substitutes for `madge --circular` where boundary rules are already wired, while `knip` keeps the unused-export role either way.
 
-[Dependency Boundary Enforcement](dependency_boundary_enforcement.md)
+- [Dependency Boundary Enforcement](dependency_boundary_enforcement.md)
 
 ## Related
 

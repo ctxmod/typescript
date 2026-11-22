@@ -32,4 +32,4 @@ Test-driven development practice governs TypeScript test files — behaviour thr
 
 Test-driven development practice governs TypeScript test files: tests assert behaviour through public interfaces at pre-agreed seams, and mocks sit at system boundaries only.
 
-[Test-Driven Development](../reference/test_driven_development.md)
+- [Test-Driven Development](../reference/test_driven_development.md)

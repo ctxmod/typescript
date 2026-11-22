@@ -51,7 +51,7 @@ For shared components, assign a functional category based on primary purpose:
 
 Target path: `src/components/common/{category}/{component-name}/`
 
-[Component Directory Structure](component_directory_structure.md)
+- [Component Directory Structure](component_directory_structure.md)
 
 ### 3. Determine Composition Strategy
 
@@ -66,7 +66,7 @@ Select the composition pattern based on component characteristics.
 | Flexible content slots needed? | Yes | Slot-based API (children, named slots) |
 | Server-side data fetching? | Yes | Loader in route module, not component |
 
-[Component Composition](component_composition.md)
+- [Component Composition](component_composition.md)
 
 When no condition applies, use a standard function component with typed props. Resist premature abstraction.
 
@@ -105,7 +105,7 @@ Map each piece of state to its owner. State that originates from the server belo
 | Frequently shared UI | Store | Zustand with selectors |
 | URL parameters | Router | `useSearchParams`, `useParams` |
 
-[State Management](state_management.md)
+- [State Management](state_management.md)
 
 Avoid duplicating server state into local state. Read from `loaderData` directly; mutations go through actions with automatic revalidation.
 
@@ -124,7 +124,7 @@ Plan story coverage for shared components:
 - Edge cases: empty, loading, error, disabled
 - Composition examples: with icons, in forms, in layouts
 
-[Testability](../../testing/reference/testability.md)
+- [Testability](../../testing/reference/testability.md)
 
 ## Decision Support
 
@@ -152,5 +152,5 @@ Use standard props when: content is dynamic from API data, or the component has 
 - [ ] Story coverage planned
 - [ ] Props interface drafted with types
 
-[Component Styling](component_styling.md)
-[Component Testing](../../testing/reference/component_testing.md)
+- [Component Styling](component_styling.md)
+- [Component Testing](../../testing/reference/component_testing.md)

@@ -140,7 +140,7 @@ Pair one interactive story with full args for ad-hoc exploration with named stor
 - **Hardcoded mock data inline** -- extract shared fixtures to a `__fixtures__` directory or a `*.fixtures.ts` co-located file for reuse across stories and tests
 - **Skipping dark mode verification** -- verify both light and dark themes through the GlobalProvider theme toggle; visual regressions frequently hide in the alternate theme
 
-[Ladle Setup](ladle_setup.md)
+- [Ladle Setup](ladle_setup.md)
 
 ## Related
 

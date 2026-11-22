@@ -12,9 +12,9 @@ catalog organization, pluralization, RTL/BiDi, and the
 server-render/hydrate/client rules — lives in the es localization home
 and is linked below, not restated here.
 
-[Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)
-[Message Catalogs](../../../../core/packages/localization/reference/message_catalogs.md)
-[Localization Compile Pipeline](../../../../core/packages/localization/reference/localization_compile_pipeline.md)
+- [Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)
+- [Message Catalogs](../../../../core/packages/localization/reference/message_catalogs.md)
+- [Localization Compile Pipeline](../../../../core/packages/localization/reference/localization_compile_pipeline.md)
 - SSOT (engineering module, `principles` profile: `design/reference/ssot.md`)
 
 ## Middleware Architecture

@@ -126,7 +126,7 @@ steps:
 
 Place type checking before building to catch errors early. Place export validation after building to verify the complete output.
 
-[Dependency Analysis](../../modules/reference/dependency_analysis.md)
+- [Dependency Analysis](../../modules/reference/dependency_analysis.md)
 
 ## Related
 

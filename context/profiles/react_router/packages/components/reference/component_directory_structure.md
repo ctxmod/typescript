@@ -77,7 +77,7 @@ src/
 
 Promote a route-specific component to `common/` only when three or more routes use it. This threshold prevents premature generalization. The component earns its abstraction through demonstrated reuse.
 
-[Component Composition](component_composition.md)
+- [Component Composition](component_composition.md)
 
 ## Import Patterns
 
@@ -101,4 +101,4 @@ When a category exceeds 25 components, introduce subcategories. For example, `fo
 
 - KISS (engineering module, `principles` profile: `design/reference/kiss.md`)
 - Convention over configuration (engineering module, `principles` profile: `design/reference/convention_over_configuration.md`)
-[Component Composition](component_composition.md)
+- [Component Composition](component_composition.md)

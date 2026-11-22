@@ -140,4 +140,4 @@ This is the styling-lens half of bidirectional support. Document-level direction
 | `flex-shrink-*`/`flex-grow-*` | 0 | 0 | >0 |
 | Old shadow scale names (`shadow`, `shadow-sm`) | 0 | 1-3 | >3 |
 
-[Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)
+- [Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)
