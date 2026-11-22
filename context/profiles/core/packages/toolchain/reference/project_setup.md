@@ -8,9 +8,16 @@ Initialize an ECMAScript/TypeScript project with correct module configuration, p
 
 ## Prerequisites
 
-- Node.js 20+ (LTS with stable ESM support)
-- PNPM 9+ (for workspace features and `workspace:` protocol)
-- TypeScript 5.5+ (`verbatimModuleSyntax`, `nodenext` module resolution)
+- Node.js on a supported LTS line — 26 (latest LTS), 24, or 22; Node.js 20
+  reached end of life in 2026. Every current LTS line runs erasable
+  TypeScript directly (stable type stripping).
+- pnpm 10+, with pnpm 11 the current major (catalogs, `workspace:` protocol,
+  and the supply-chain defaults described in
+  [Monorepo Orchestration](monorepo_orchestration.md)).
+- TypeScript 6.0+ or 7.x. TypeScript 7 is the native (Go) compiler shipped as
+  the ordinary `typescript` package's `tsc`; 6.0 is the last JavaScript-based
+  release and the bridge to it. Write configuration that is valid on both — see
+  [Native TypeScript Compiler](typescript_native_compiler.md).
 
 ## Steps
 
@@ -35,9 +42,22 @@ Select the `module` and `moduleResolution` pair matching the target environment:
 
 | Target | module | moduleResolution | Extensions |
 |--------|--------|-----------------|------------|
-| Node.js application | `"nodenext"` | `"nodenext"` | Required (`.js`) |
+| Node.js application (compiled) | `"nodenext"` | `"nodenext"` | Required (`.js`) |
+| Node.js application (run from source by type stripping) | `"nodenext"` | `"nodenext"` | Required (`.ts`, with `rewriteRelativeImportExtensions` if anything emits) |
 | Published library | `"nodenext"` | `"nodenext"` | Required (`.js`) |
 | Bundler application | `"esnext"` | `"bundler"` | Optional |
+
+`"nodenext"` floats with the newest Node.js behavior and implies
+`target: "esnext"`; pin `"node20"` instead when the emitted module semantics
+must stay fixed across compiler upgrades.
+
+Three TypeScript 6.0 default changes (carried into 7.0) make some options
+mandatory to state rather than inherit: `types` now defaults to `[]` (list
+`"node"` and any other global type packages explicitly), `rootDir` defaults to
+the directory holding `tsconfig.json` (set it to `src`), and `strict` defaults
+to `true` (keep it explicit for readers). `esModuleInterop` and
+`allowSyntheticDefaultImports` can no longer be `false`, so they need not be
+set at all.
 
 Create `tsconfig.json` for a Node.js ESM project:
 
@@ -54,11 +74,21 @@ Create `tsconfig.json` for a Node.js ESM project:
     "sourceMap": true,
     "strict": true,
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "types": ["node"],
     "skipLibCheck": true
   },
   "include": ["src"]
 }
 ```
+
+`erasableSyntaxOnly` rejects TypeScript constructs with runtime semantics
+(`enum`, namespaces with values, parameter properties, `import =`), so the
+same source runs under Node.js type stripping and any strip-only transformer
+unchanged. For an application executed straight from `.ts` source, add
+`"noEmit": true` (or `"rewriteRelativeImportExtensions": true` when a build
+also emits) and write `.ts` extensions in relative imports — the
+configuration the Node.js TypeScript documentation recommends.
 
 For bundler-based applications:
 
@@ -72,12 +102,17 @@ For bundler-based applications:
     "outDir": "dist",
     "strict": true,
     "verbatimModuleSyntax": true,
-    "esModuleInterop": true,
+    "noEmit": true,
+    "types": ["vite/client"], // the bundler's ambient types, listed explicitly
     "skipLibCheck": true
   },
   "include": ["src"]
 }
 ```
+
+Path aliases use `paths` alone: `baseUrl` is deprecated in TypeScript 6.0 and
+removed in 7.0, and `paths` entries resolve relative to the `tsconfig.json`
+that declares them.
 
 ### 3. Configure Package Exports
 
@@ -98,11 +133,13 @@ Place `types` first in condition order. Add subpath exports for additional entry
 
 ### 4. Set Up Build Tooling
 
-For packages requiring compilation, configure `tsup`:
+For packages requiring compilation, configure `tsdown` (the Rolldown-based
+library bundler; `tsup`, the previous default, is no longer actively
+maintained and its README points to `tsdown`):
 
 ```typescript
-// tsup.config.ts
-import { defineConfig } from "tsup";
+// tsdown.config.ts
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -115,8 +152,12 @@ export default defineConfig({
 Install as a dev dependency:
 
 ```bash
-pnpm add -D tsup typescript
+pnpm add -D tsdown typescript
 ```
+
+A package with no bundling needs can skip the bundler entirely and emit with
+`tsc` (`declaration: true`); the bundler earns its place only when output must
+be bundled, minified, or produced in several formats.
 
 For internal monorepo packages that do not publish externally, skip the build tool and point exports directly at TypeScript source during development. Use `publishConfig` to override exports at publish time.
 
@@ -130,7 +171,13 @@ For monorepo setups, create workspace configuration at the repository root.
 packages:
   - "apps/*"
   - "packages/*"
+catalog:
+  typescript: ^7.0.2
 ```
+
+Shared versions live in the `catalog:` table and manifests reference them as
+`"typescript": "catalog:"`; since pnpm 11 the workspace file is also where
+pnpm-specific settings go (`.npmrc` keeps only registry and auth settings).
 
 Root `package.json`:
 
@@ -191,7 +238,7 @@ Reference workspace packages with the `workspace:` protocol:
 Install shared dev dependencies at the workspace root:
 
 ```bash
-pnpm add -Dw typescript tsup
+pnpm add -Dw typescript tsdown
 ```
 
 Install package-specific dependencies using `--filter`:
@@ -206,7 +253,7 @@ Run verification checks:
 
 ```bash
 tsc --noEmit                    # Type checking passes
-pnpm tsup                       # Build produces expected output
+pnpm tsdown                     # Build produces expected output
 node dist/index.js              # Runtime execution works (Node.js target)
 ```
 
@@ -224,3 +271,14 @@ node dist/index.js              # Runtime execution works (Node.js target)
 ## Related
 
 - [Import and Export Conventions](../../modules/reference/import_export_conventions.md)
+- [Native TypeScript Compiler](typescript_native_compiler.md)
+
+## Sources
+
+- https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/ — TypeScript 6.0 default changes (`strict`, `module`, `target`, `types`, `rootDir`) and deprecations (`baseUrl`, `moduleResolution node`, `esModuleInterop: false`) (2026-03-23; accessed 2026-11-22)
+- https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/ — TypeScript 7.0 native `tsc`, removed 6.0-deprecated options (2026-07-08; accessed 2026-11-22)
+- https://www.typescriptlang.org/tsconfig/ — `module` `node20`/`nodenext` semantics, `erasableSyntaxOnly`, `rewriteRelativeImportExtensions`, `verbatimModuleSyntax` (accessed 2026-11-22)
+- https://nodejs.org/api/typescript.html — stable type stripping, unsupported syntax, recommended tsconfig, mandatory `.ts` extensions (Node.js v26.13.1 docs; accessed 2026-11-22)
+- https://nodejs.org/en/about/previous-releases — release-line status: v26/v24/v22 LTS, v20 EOL (accessed 2026-11-22)
+- https://cdn.jsdelivr.net/gh/egoist/tsup@main/README.md — tsup "not actively maintained", points to tsdown (accessed 2026-11-22)
+- https://pnpm.io/blog/releases/11.0 — pnpm 11 settings move to `pnpm-workspace.yaml`, Node.js 22+ requirement (accessed 2026-11-22)

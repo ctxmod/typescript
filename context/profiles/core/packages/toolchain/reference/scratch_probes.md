@@ -1,6 +1,6 @@
 # Scratch Probes
 
-Write throwaway TypeScript probes as .mts files in /tmp and run them with node against the repository's local tsx CLI.
+Write throwaway TypeScript probes as .mts files in /tmp and run them with node directly, falling back to the repository's local tsx CLI when the code needs a full transform.
 
 A scratch probe is a throwaway TypeScript file an agent runs once to check
 how a library, a module, or a runtime behaves. The probe answers a question
@@ -16,8 +16,17 @@ and is then discarded; it is never part of the change. Linux and macOS only.
 
 ## Rules
 
-- Probes are `.mts` files run with node against the repository's local tsx
-  CLI module: `node /abs/repo/node_modules/tsx/dist/cli.mjs /tmp/probe.mts`.
+- First choice: run the probe with node itself — `node /tmp/probe.mts`.
+  Every current Node.js LTS line (22.18+, 24, 26) strips erasable
+  TypeScript natively, so a probe needs no loader when it and every
+  repository file it imports use only erasable syntax and explicit file
+  extensions. Node never strips types under `node_modules`, and it rejects
+  `enum`, value namespaces, parameter properties, and decorators with
+  `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`.
+- When the probe or the source it imports needs a full transform
+  (non-erasable syntax, extensionless relative imports, path aliases), run
+  it with node against the repository's local tsx CLI module:
+  `node /abs/repo/node_modules/tsx/dist/cli.mjs /tmp/probe.mts`.
 - Invoke the CLI module by path. An absolute path to
   `node_modules/tsx/dist/cli.mjs` works from any working directory.
 - Do not use `npx tsx`. In an agent session the command-rewrite proxy
@@ -54,3 +63,7 @@ and is then discarded; it is never part of the change. Linux and macOS only.
 - [Project Setup](project_setup.md)
 - [Import and Export Conventions](../../modules/reference/import_export_conventions.md)
 - [Local Server Lifecycle](../../testing/reference/local_server_lifecycle.md)
+
+## Sources
+
+- https://nodejs.org/api/typescript.html — type stripping stable and enabled by default (v22.18.0/v23.6.0; stable v24.12.0/v25.2.0), unsupported syntax, no stripping under `node_modules`, mandatory extensions (Node.js v26.13.1 docs; accessed 2026-11-22)
