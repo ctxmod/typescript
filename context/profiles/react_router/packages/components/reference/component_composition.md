@@ -62,6 +62,28 @@ Slots provide named content injection points within components, replacing prop-b
 
 This pattern maintains visual consistency while allowing arbitrary JSX at controlled positions.
 
+## React 19 Component Conventions
+
+React 19.x (19.3 current) changes several composition defaults:
+
+- **`ref` is an ordinary prop** on function components; new components take
+  `ref` in their props instead of wrapping in `forwardRef`, and a ref callback
+  may return a cleanup function.
+- **`<Context value={...}>` is the provider**; `<Context.Provider>` is the
+  legacy spelling. Compound components share state through it unchanged.
+- **Memoization is the compiler's job in new code.** With React Compiler 1.0
+  enabled (Babel plugin, or the Vite `reactCompilerPreset`), components and
+  hooks are memoized at build time; hand-written `useMemo`/`useCallback`/`memo`
+  stay an escape hatch (a stable effect dependency), and existing
+  memoization is left in place rather than stripped without test coverage.
+- **Effect events and hidden UI have first-class primitives.**
+  `useEffectEvent` (19.2) holds non-reactive logic out of an effect's
+  dependencies; `<Activity mode="hidden">` (19.2) keeps a subtree's state
+  while unmounting its effects, for tabs and pre-rendered next views.
+- **Animated and grouped DOM behavior** use `<ViewTransition>` and
+  `<Fragment ref>` (both stable in 19.3) instead of wrapper elements added
+  only to attach a ref or an animation.
+
 ## Decision Framework
 
 | Scenario | Approach | Rationale |
@@ -111,3 +133,11 @@ Components exceeding these thresholds benefit from decomposition: extract hooks 
 - [Route Module Design](../../routes/reference/route_module_design.md)
 - [Testability](../../testing/reference/testability.md)
 - [State Management](state_management.md)
+
+## Sources
+
+- https://react.dev/blog/2024/12/05/react-19 — `ref` as a prop, `<Context>` as provider, ref cleanup functions (2024-12-05; accessed 2026-11-22)
+- https://react.dev/blog/2025/10/01/react-19-2 — `<Activity>`, `useEffectEvent` (2025-10-01; accessed 2026-11-22)
+- https://react.dev/blog/2026/09/09/react-19-3 — stable `<ViewTransition>` and Fragment refs (2026-09-09; accessed 2026-11-22)
+- https://react.dev/blog/2025/10/07/react-compiler-1 — React Compiler 1.0 stable, memoization guidance (2025-10-07; accessed 2026-11-22)
+- https://vite.dev/blog/announcing-vite8 — `@vitejs/plugin-react` v6 and the opt-in `reactCompilerPreset` (2026-03-12; accessed 2026-11-22)

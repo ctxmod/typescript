@@ -47,7 +47,7 @@ const count = useStore((state) => state.count);
 | Consumer count | Few (<4 unrelated consumers) | Many distant consumers |
 | Provider requirement | Yes (component tree scoped) | No (works outside React tree) |
 | Bundle size impact | None (built-in) | Minimal (~1KB) |
-| Render optimization | Manual (memoization required) | Automatic (selective subscriptions) |
+| Render optimization | Every consumer re-renders on a value change (the React Compiler memoizes children, not consumers) | Automatic (selective subscriptions) |
 
 ## Server State
 
@@ -106,3 +106,7 @@ URL state synchronizes naturally with loaders -- search parameters are available
 
 - [Route Module Design](../../routes/reference/route_module_design.md)
 - [Component Composition](component_composition.md)
+
+## Sources
+
+- https://react.dev/blog/2025/10/07/react-compiler-1 — React Compiler 1.0: build-time memoization of components and hooks (2025-10-07; accessed 2026-11-22)
