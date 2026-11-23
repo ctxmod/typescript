@@ -1,9 +1,3 @@
 description: >-
   The fast lint/format toolchain (Biome or Oxlint), monorepo orchestration, project setup, compiler configuration and the native TypeScript 7 compiler, TypeScript validation, scratch probes, and Vite plugin development.
 binds_to_depth: main...
-prompt: |
-  # Vite plugins
-
-  Before you write or change a Vite plugin, read the develop_vite_plugin
-  skill (`context/profiles/core/packages/toolchain/skills/develop_vite_plugin/SKILL.md`
-  in the github.com/ctxmod/typescript repository) and follow its workflow.

@@ -1,3 +1,17 @@
+---
+paths:
+  - "*.css"
+  - "*/*.css"
+  - "*/*/*.css"
+  - "*/*/*/*.css"
+  - "*/*/*/*/*.css"
+  - "*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*/*.css"
+---
+
 # Stylesheet Context
 
 Styling philosophy for CSS stylesheet and module files.

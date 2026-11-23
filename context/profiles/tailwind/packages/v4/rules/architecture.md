@@ -1,3 +1,17 @@
+---
+paths:
+  - "*.css"
+  - "*/*.css"
+  - "*/*/*.css"
+  - "*/*/*/*.css"
+  - "*/*/*/*/*.css"
+  - "*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*/*.css"
+---
+
 # Tailwind v4 Architecture Context
 
 Globals.css structure, theme namespaces, and dark mode configuration.
