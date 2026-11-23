@@ -104,7 +104,7 @@ Identify packages at risk:
 
 **Fail**: Stateful package publishes independent ESM and CJS implementations.
 
-**Remediation**: For stateful packages, use the ESM wrapper pattern: implement in CJS, create a thin ESM re-export layer. Alternatively, publish ESM-only and rely on `require(esm)` support in Node.js 22+.
+**Remediation**: For stateful packages, use the ESM wrapper pattern: implement in CJS, create a thin ESM re-export layer. Alternatively, publish ESM-only and rely on `require(esm)`, unflagged on every supported Node.js line (20.19+/22.12+).
 
 ### Dependency Weight
 
@@ -144,3 +144,8 @@ Dependency-cruiser enforces the complementary source-tree boundary concern — a
 ## Related
 
 - [Project Setup](../../toolchain/reference/project_setup.md)
+
+## Sources
+
+- https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require — `require(esm)` loading of ESM from CommonJS (accessed 2026-11-22)
+- https://vite.dev/blog/announcing-vite8 — Node.js 20.19+/22.12+ baseline that `require(esm)` support set (2026-03-12; accessed 2026-11-22)

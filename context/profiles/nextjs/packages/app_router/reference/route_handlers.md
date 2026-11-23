@@ -22,7 +22,7 @@ export async function POST(_req: NextRequest) {
 
 **Use RouteContext for typed params**
 
-In Next.js 15+, `params` is a Promise that must be awaited. Use the `RouteContext<'/users/[id]'>` type helper for typed access:
+`params` is a Promise that must be awaited (synchronous access was removed in Next.js 16). Use the `RouteContext<'/users/[id]'>` type helper for typed access:
 
 ```typescript
 export async function GET(_req: NextRequest, ctx: RouteContext<'/users/[id]'>) {
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
 **Non-GET handlers are never cached**
 
-Route handlers (POST, PUT, DELETE, etc.) run at request time by default. GET handlers run at request time unless they access uncached or runtime data. Opt into caching with `"use cache"` on helper functions:
+Route handlers (POST, PUT, DELETE, etc.) run at request time by default. Under Cache Components ([Cache Components](cache_components.md)), GET handlers are dynamic by default too; opt into caching with `"use cache"` on helper functions:
 
 ```typescript
 export async function GET(_req: NextRequest) {
@@ -99,3 +99,8 @@ export async function GET(_req: NextRequest) {
 | `params` awaited in route handlers | 100% | 0% | 0% |
 | Body parsing manual in route handlers | 100% | 0% | 0% |
 | `"use cache"` in route handler export | 0% | 0% | >0% |
+
+## Sources
+
+- https://nextjs.org/blog/next-16 — async `params`, Cache Components dynamic-by-default model (2025-10-21; accessed 2026-11-22)
+- https://nextjs.org/docs/app/api-reference/file-conventions/route — route handler conventions, `RouteContext` (accessed 2026-11-22)

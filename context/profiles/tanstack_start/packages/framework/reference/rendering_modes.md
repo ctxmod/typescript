@@ -19,6 +19,15 @@ server involvement:
 | Data-only | Serves data, not documents | Client bundle; rendering in the browser |
 | Client-only | Nothing route-specific | Client bundle alone |
 
+The axis is the framework's selective-SSR `ssr` route option:
+server-rendered is `ssr: true` (the default), data-only is
+`ssr: 'data-only'` (loaders and `beforeLoad` run on the server, the
+component renders in the browser), and client-only is `ssr: false`. The
+application-wide default is `defaultSsr` in the `createStart` options
+(`src/start.ts`); SPA mode turns server execution off for the whole
+application. A functional `ssr` runs server-side on the initial request
+only and may narrow per request from validated params and search.
+
 **Narrowing is monotonic.** A child route may narrow its ancestors'
 mode (server-rendered → data-only → client-only); it may not widen one.
 Widening silently is the failure this rule exists for: upstream
@@ -151,3 +160,7 @@ never implies a different artifact.
 - [Generated-Code Discipline](../../../../core/packages/contracts/reference/generated_code_discipline.md)
 - [Routing](routing.md)
 - [Vite Configuration](vite_config.md)
+
+## Sources
+
+- https://tanstack.com/start/latest/docs/framework/react/guide/selective-ssr — `ssr: true | 'data-only' | false`, children only narrow, `defaultSsr` in `createStart`, functional `ssr`, SPA mode (accessed 2026-11-22)

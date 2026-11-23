@@ -41,7 +41,7 @@ execution side:
 | Concern | Execution side | Responsibility |
 |---|---|---|
 | Loader | Server | Data loading for the route before rendering |
-| Server functions | Server | Explicit server-only operations the client can invoke outside navigation |
+| Server functions (`createServerFn`) | Server | Typed, input-validated server-only operations callable from loaders and event handlers |
 | Route component | Server + client | Rendering, consuming typed loader data |
 | Error component | Server + client | Route-granular failure rendering |
 | Head and meta | Server | Document metadata for the route |
@@ -54,7 +54,10 @@ typed client from the bundled contract
 ([Generated Clients](../../../../core/packages/contracts/reference/generated_clients.md)); a
 hand-written server-side fetch wrapper is prohibited on the same terms
 as a hand-written browser one, and a mutation that matters is a Command
-against the API contract, not a free-form server function.
+against the API contract, not a free-form server function. Server
+functions validate their input at the boundary and compose request
+middleware (auth, locale) on both sides of the network; the validated
+input type is the function's contract with its callers.
 
 ## What Carries Over from es Core
 
@@ -77,8 +80,8 @@ against the API contract, not a free-form server function.
 
 ## Comparison to the react-router Sibling
 
-The sibling reference
-(`react-router/reference/principles/development/react/route-module-design.md`)
+The sibling reference (the react_router profile's *Route Module Design*
+reference, `profiles/react_router/packages/routes/reference/route_module_design.md`)
 owns the route-module concept for the router-lens framework. Read it for
 the shared discipline; the differences that matter here:
 
@@ -122,9 +125,14 @@ renders; it never invents its own error taxonomy.
 - The **problem-details** reference owns the error contract error
   components render.
 - Rendering-mode selection per route is the rendering-modes reference's
-  (`rendering-modes.md`); Vite composition is the vite-config
-  reference's (`vite-config.md`).
+  ([Rendering Modes](rendering_modes.md)); Vite composition is the
+  vite-config reference's ([Vite Configuration](vite_config.md)).
 
 ## Related
 
 - the react_router profile's *Route Module Design* reference (`profiles/react_router/packages/routes/reference/route_module_design.md`)
+
+## Sources
+
+- https://tanstack.com/blog/tanstack-start-1-0 — TanStack Start 1.0 stable and production-ready; `createServerFn`; Vite and Nitro for hosting, Rsbuild support (2026-10-13; accessed 2026-11-22)
+- https://tanstack.com/start/latest/docs/framework/react/middleware — request and server-function middleware (accessed 2026-11-22)

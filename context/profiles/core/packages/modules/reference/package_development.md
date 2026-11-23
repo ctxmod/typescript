@@ -30,17 +30,21 @@ The simplest configuration. The package produces only ESM output.
 ### Build Configuration
 
 ```typescript
-// tsup.config.ts
-import { defineConfig } from "tsup";
+// tsdown.config.ts
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm"],
   dts: true,
   clean: true,
-  splitting: false,
 });
 ```
+
+`tsdown` (built on Rolldown) is the library bundler of record; `tsup`, the
+previous default, is no longer actively maintained and points its users to
+`tsdown`, whose `tsdown migrate` command converts an existing config. A
+package with nothing to bundle can emit with `tsc` alone.
 
 ### Build Output
 
@@ -52,7 +56,7 @@ dist/
 └── index.d.ts.map    # Declaration map
 ```
 
-ESM-only is the preferred approach for new packages. Node.js 22+ supports `require(esm)` natively, reducing the need for CJS output. Choose ESM-only unless consumers explicitly require CommonJS.
+ESM-only is the preferred approach for new packages. Every supported Node.js line (22.12+, 24, 26) loads ESM through `require(esm)` without a flag, so CommonJS consumers can `require()` an ESM-only package (one without top-level `await`). Choose ESM-only unless consumers explicitly require a CommonJS build — for example, runtimes older than the current LTS lines.
 
 ## Dual ESM/CJS Package
 
@@ -67,39 +71,49 @@ When consumers include both ESM and CJS environments, produce both formats with 
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.mjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.cts",
   "files": ["dist"]
 }
 ```
 
-Condition order matters: `types` first for TypeScript resolution, then `import` and `require` for format selection, then `default` as fallback. The `main` and `module` fields provide backward compatibility for older bundlers that do not read `exports`.
+Each format gets its own declaration file, nested under its condition: a
+single `.d.ts` shared by `import` and `require` describes one module format to
+both consumers ("masquerading" — CJS consumers type-check against ESM
+declarations and the reverse), which `attw` reports as an error. Within each
+condition `types` comes first. The `main`, `module`, and top-level `types`
+fields provide backward compatibility for tools that do not read `exports`.
 
 ### Build Configuration
 
 ```typescript
-// tsup.config.ts
-import { defineConfig } from "tsup";
+// tsdown.config.ts
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
   dts: true,
   clean: true,
-  splitting: false,
-  outExtension({ format }) {
-    return { js: format === "esm" ? ".mjs" : ".cjs" };
-  },
+  fixedExtension: true, // always .mjs/.cjs, whatever the package type
 });
 ```
+
+`fixedExtension` pins `.mjs`/`.cjs` output (and the matching `.d.mts`/`.d.cts`
+declarations) regardless of the package's `type`; set it explicitly rather
+than relying on its platform-dependent default.
 
 ### Dual Package Hazard
 
@@ -111,7 +125,7 @@ Mitigation strategies:
 |----------|----------|
 | ESM wrapper | Write one CJS implementation; create a thin ESM wrapper that re-exports from CJS |
 | Stateless design | Ensure the package carries no module-level state; separate instances behave identically |
-| Single format | Publish ESM-only and rely on `require(esm)` in Node.js 22+ |
+| Single format | Publish ESM-only and rely on `require(esm)` (unflagged in Node.js 20.19+/22.12+, so on every supported line) |
 
 For packages with internal state (caches, registries, singletons), the ESM wrapper approach eliminates the hazard entirely by maintaining a single implementation copy.
 
@@ -145,15 +159,15 @@ Monorepo packages consumed only by sibling packages can skip compilation during 
 
 Benefits: no build step for inter-package development, instant type checking across packages, faster test execution. The `publishConfig` field overrides exports at publish time, so published packages reference compiled output.
 
-This pattern requires consuming applications to use a bundler or TypeScript project references that can resolve `.ts` imports. It does not work for direct Node.js execution without compilation.
+This pattern requires consuming applications to use a bundler or TypeScript project references that can resolve `.ts` imports. Direct Node.js execution works only when the package source is erasable TypeScript with explicit `.ts` import extensions and resolves outside `node_modules` (Node.js refuses to strip types under `node_modules`); otherwise compile first.
 
 ## Multiple Entry Points
 
 Packages exposing multiple subpath exports need matching build entry points:
 
 ```typescript
-// tsup.config.ts
-import { defineConfig } from "tsup";
+// tsdown.config.ts
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: {
@@ -189,9 +203,19 @@ Before publishing, verify:
 - [ ] `types` condition appears first in each export
 - [ ] Build output matches all declared export paths
 - [ ] `pnpm pack --dry-run` shows expected files
+- [ ] `attw --pack .` and `publint` pass (each format resolves its own declarations)
 
 - [TypeScript Validation](../../toolchain/reference/typescript_validation.md)
 
 ## Related
 
 - [Project Setup](../../toolchain/reference/project_setup.md)
+
+## Sources
+
+- https://cdn.jsdelivr.net/gh/egoist/tsup@main/README.md — tsup "not actively maintained anymore", recommends tsdown (accessed 2026-11-22)
+- https://tsdown.dev/guide/ — tsdown, the Rolldown-based library bundler (v0.23.7; accessed 2026-11-22)
+- https://www.npmjs.com/package/tsdown — `fixedExtension` option: always `.mjs`/`.cjs`, default `platform === 'node'` (type declarations of tsdown 0.23.7; accessed 2026-11-22)
+- https://nodejs.org/api/modules.html#loading-ecmascript-modules-using-require — `require(esm)` (accessed 2026-11-22)
+- https://nodejs.org/api/typescript.html — no type stripping under `node_modules` (Node.js v26.13.1 docs; accessed 2026-11-22)
+- https://github.com/arethetypeswrong/arethetypeswrong.github.io — "masquerading as ESM/CJS" problem class (accessed 2026-11-22)

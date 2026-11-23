@@ -19,7 +19,7 @@ checked in four stages:
 - file: a content scan.
 - compile: `tsc` against the module's `tsconfig.json`.
 - lint: only checks that need no config file, such as knip, syncpack and ts-unused-exports.
-- format: biome and prettier checks.
+- format: the configured formatter (biome, oxfmt, or prettier) checks.
 
 No test stage runs unless tests are explicitly selected.
 

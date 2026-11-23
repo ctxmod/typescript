@@ -1,19 +1,21 @@
 # Environment Setup
 
-Development environment configuration for React Router v7 SSR with Cloudflare Workers, Tailwind v4, and TypeScript.
+Development environment configuration for React Router v8 (framework mode) SSR with Cloudflare Workers, Tailwind v4, and TypeScript.
 
-Procedure for configuring a React Router v7 SSR development environment targeting Cloudflare Workers. This covers dependency installation, TypeScript configuration, Tailwind v4 integration, project structure, and Vite build setup.
+Procedure for configuring a React Router v8 (framework mode) SSR development environment targeting Cloudflare Workers. This covers dependency installation, TypeScript configuration, Tailwind v4 integration, project structure, and Vite build setup.
 
 ## Setup Workflow
 
 ### 1. Install Core Dependencies
 
-Install the React Router v7 framework, Cloudflare adapter, and build tooling:
+Install the React Router framework, the Cloudflare Vite plugin, and build tooling (v8 requires Node.js 22.22+, React 19.2.7+, and Vite 7+, and ships ESM-only; `react-router-dom` no longer exists — import from `react-router` and `react-router/dom`):
 
 ```bash
-npm install react-router @react-router/cloudflare
-npm install -D @react-router/dev @cloudflare/vite-plugin vite typescript
+npm install react-router react react-dom
+npm install -D @react-router/dev @cloudflare/vite-plugin wrangler vite typescript
 ```
+
+`@cloudflare/vite-plugin` runs the app inside the Workers runtime during development; v8 removed React Router's own Cloudflare dev proxy (`@react-router/dev/vite/cloudflare`).
 
 Install Tailwind CSS v4 with the Vite plugin (replaces PostCSS integration):
 
@@ -39,14 +41,10 @@ import type { Config } from "@react-router/dev/config";
 
 export default {
   ssr: true,
-  future: {
-    v8_middleware: true,
-    v8_splitRouteModules: true,
-  },
 } satisfies Config;
 ```
 
-Enable middleware support (`v8_middleware`) for centralized concerns like i18n detection. Enable route module splitting (`v8_splitRouteModules`) for granular code splitting.
+Middleware (centralized concerns like i18n detection) and route-module splitting are v8 defaults, so the config carries no `future` flags; `splitRouteModules` is a top-level option, on by default.
 
 ### 3. Configure Vite
 
@@ -87,11 +85,14 @@ Set up TypeScript with React Router's generated types and path aliases:
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "jsx": "react-jsx",
     "strict": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
     "skipLibCheck": true,
+    "types": ["vite/client"],
     "rootDirs": [".", "./.react-router/types"],
     "paths": {
       "@app/*": ["./src/*"]
@@ -99,10 +100,14 @@ Set up TypeScript with React Router's generated types and path aliases:
   },
   "include": [
     "src/**/*",
+    "workers/**/*",
+    "worker-configuration.d.ts",
     ".react-router/types/**/*"
   ]
 }
 ```
+
+`wrangler types` generates `worker-configuration.d.ts` (the `Env` interface for the declared bindings and the runtime types); regenerate it whenever `wrangler.jsonc` changes and include it explicitly, since TypeScript 6+ no longer loads ambient `@types` packages unless `types` lists them.
 
 The `rootDirs` configuration enables generated route types (`Route.ComponentProps`, `Route.LoaderArgs`) to resolve correctly. Path aliases (`@app/*`) simplify imports across the project.
 
@@ -199,7 +204,7 @@ Create the Cloudflare Workers configuration:
 {
   "name": "my-app",
   "main": "workers/app.ts",
-  "compatibility_date": "2025-01-01",
+  "compatibility_date": "2026-11-01", // the latest runtime date the app was tested against
   "vars": {
     "VITE_APP_NAME": "My Application"
   },
@@ -209,7 +214,7 @@ Create the Cloudflare Workers configuration:
 }
 ```
 
-Add bindings (KV, D1, R2) as the application requires them. Each binding becomes available through `context.cloudflare.env` in loaders and actions.
+Add bindings (KV, D1, R2) as the application requires them. Each binding becomes available through the typed Cloudflare context (`context.get(cloudflareContext).env`) in loaders, actions, and middleware — see [Cloudflare Workers Deployment](cloudflare_workers.md).
 
 ## Verification
 
@@ -228,7 +233,7 @@ The dev server should:
 
 ## Setup Checklist
 
-- [ ] React Router v7 with SSR enabled in config
+- [ ] React Router v8 with SSR enabled in config and no leftover `future.v8_*` flags
 - [ ] Vite configured with Tailwind, React Router, and Cloudflare plugins
 - [ ] TypeScript includes `.react-router/types` with `rootDirs`
 - [ ] Tailwind v4 uses `@theme` directive (no JavaScript config)
@@ -241,3 +246,9 @@ The dev server should:
 
 - [Deployment](deployment.md)
 - [Cloudflare Workers Deployment](cloudflare_workers.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)
+- https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/ — `types` defaults to `[]` (2026-03-23; accessed 2026-11-22)
+- https://developers.cloudflare.com/workers/wrangler/commands/#types — `wrangler types` generating the `Env` declarations (accessed 2026-11-22)

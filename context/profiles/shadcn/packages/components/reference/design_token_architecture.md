@@ -63,10 +63,15 @@ shadcn uses CSS variables for all component colors. The `components.json` file c
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "new-york",
   "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "neutral",
     "cssVariables": true
   }
 }
 ```
+
+`style`, `baseColor`, and `cssVariables` cannot change after initialization, so choose them deliberately (`new-york` is the only non-deprecated style). For Tailwind v4, `tailwind.config` stays empty — the tokens live in the CSS file `tailwind.css` names.
 
 shadcn components reference variables like `--background`, `--foreground`, `--primary`, `--border`. Map project tokens to these variables in the theme layer so components receive values without source modification.
 
@@ -112,3 +117,7 @@ Use OKLCH for all color definitions. OKLCH provides perceptually uniform lightne
 - Convention over configuration (engineering module, `principles` profile: `design/reference/convention_over_configuration.md`)
 the react_router profile's *Styling Philosophy* reference (`profiles/react_router/packages/components/reference/styling_philosophy.md`)
 - [shadcn/ui Integration](shadcn_integration.md)
+
+## Sources
+
+- https://ui.shadcn.com/docs/components-json — `style` (`new-york`; `default` deprecated), `tailwind.config` blank for v4, `tailwind.css`, `cssVariables`, `baseColor`, `aliases`, namespaced `registries` (accessed 2026-11-22)

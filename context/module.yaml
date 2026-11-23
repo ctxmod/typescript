@@ -1,11 +1,11 @@
 title: TypeScript & ECMAScript
 description: >-
   Contract-first TypeScript and JavaScript (ECMAScript; also known as
-  ts, js, typescript, javascript, es) applications: the Biome
+  ts, js, typescript, javascript, es) applications: the Biome or Oxlint
   toolchain, deep modules and enforced boundaries, generated clients
   and drift gates, problem details, and localization. Opt-in framework
-  profiles cover Next.js (nextjs), React Router v7 (react_router),
-  TanStack Start (tanstack_start), shadcn/ui with Ladle stories
+  profiles cover Next.js 16 (nextjs), React Router v8 (framework mode; react_router),
+  TanStack Start (tanstack_start), shadcn/ui with Storybook stories
   (shadcn), and Tailwind CSS v4 (tailwind).
 path: github.com/ctxmod/typescript/context
 requires:

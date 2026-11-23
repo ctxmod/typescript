@@ -105,7 +105,7 @@ Touch devices will no longer trigger hover on tap. Restore v3 behavior: `@custom
 
 ## Border Color Default
 
-**`bg-*` and `divide-*` default border color changed to `currentColor`**
+**`border-*` and `divide-*` default border color changed to `currentColor`**
 
 This silently changes appearance. Add a base layer override to restore v3 behavior if needed.
 
@@ -123,13 +123,22 @@ Layout that runs along the inline axis is written with logical utilities, not ph
 | Inline-end padding | `pr-*` | `pe-*` |
 | Inline-start border | `border-l-*` | `border-s-*` |
 | Inline-end border | `border-r-*` | `border-e-*` |
-| Inset from inline edge | `left-*` / `right-*` | `start-*` / `end-*` |
+| Inset from inline edge | `left-*` / `right-*` | `inset-s-*` / `inset-e-*` (v4.2+; `start-*`/`end-*` are deprecated aliases) |
+| Block-start spacing (differs only under vertical writing modes) | `mt-*` / `pt-*` | `mbs-*` / `pbs-*` (v4.2+) |
 | Text alignment | `text-left` / `text-right` | `text-start` / `text-end` |
 | Corner rounding | `rounded-l-*` / `rounded-r-*` | `rounded-s-*` / `rounded-e-*` |
 
 Physical utilities remain correct where direction-independence is the point — an offset that must stay on the same visual side regardless of writing direction is a physical concern by definition.
 
 This is the styling-lens half of bidirectional support. Document-level direction handling, icon flipping, and bidirectional text isolation are owned by the es locale-strategies reference ([Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)), which this styling guidance implements and does not restate.
+
+## Recent Additions (v4.2–v4.3)
+
+Prefer the built-in utility over an arbitrary property: `scrollbar-thin` /
+`scrollbar-none` / `scrollbar-thumb-*` / `scrollbar-track-*` /
+`scrollbar-gutter-stable` (v4.3) instead of hand-written `scrollbar-*` CSS,
+`zoom-*` and `tab-*` (v4.3), `font-features-*` (v4.2; `tabular-nums` for the
+common case), and the `mauve`, `olive`, `mist`, and `taupe` palettes (v4.2).
 
 ## Thresholds
 
@@ -139,5 +148,11 @@ This is the styling-lens half of bidirectional support. Document-level direction
 | `*-opacity-*` utilities | 0 | 0 | >0 |
 | `flex-shrink-*`/`flex-grow-*` | 0 | 0 | >0 |
 | Old shadow scale names (`shadow`, `shadow-sm`) | 0 | 1-3 | >3 |
+| Deprecated `start-*`/`end-*` inset utilities | 0 | 1-3 | >3 |
 
 - [Locale Strategies](../../../../core/packages/localization/reference/locale_strategies.md)
+
+## Sources
+
+- https://tailwindcss.com/docs/upgrade-guide — browser floor, `border-*`/`divide-*` default `currentColor`, `theme(--breakpoint-xl)` in media queries, JS config not auto-detected, `npx @tailwindcss/upgrade` on Node.js 20+ (accessed 2026-11-22)
+- https://tailwindcss.com/blog/tailwindcss-v4-3 — v4.2 palettes, `@tailwindcss/webpack`, logical inset/block utilities and the `start-*`/`end-*` deprecation; v4.3 scrollbar, `zoom-*`, `tab-*`, stacked/compound `@variant`, `--default()` (2026-05-08; accessed 2026-11-22)

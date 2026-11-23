@@ -44,7 +44,7 @@ export function getDb() {
 
 ## Params Promise
 
-**`params` is a Promise in Next.js 15+**
+**`params` is a Promise (sync access removed in Next.js 16)**
 
 ```typescript
 // ❌ WRONG
@@ -67,6 +67,8 @@ This affects all dynamic route segments in pages, layouts, and route handlers.
 **Importing native modules in Edge runtime causes `node:crypto` errors**
 
 Native C++ addons cannot run in the Edge Runtime. Importing them in a file that gets bundled for Edge causes cryptic `node:crypto` errors that are hard to trace.
+
+Route segments already default to the Node.js runtime, and Next.js 16's `proxy.ts` runs only on Node.js, so this pitfall applies to code explicitly opted into Edge (`export const runtime = "edge"`, or the deprecated `middleware.ts`).
 
 **Fix: Guard with runtime or use dynamic import**
 
@@ -96,7 +98,7 @@ if (process.env.NEXT_RUNTIME === 'nodejs') {
 
 **Accessing `searchParams` forces dynamic rendering**
 
-If a page reads `searchParams`, it cannot be statically prerendered at build time. For content pages that should be static, move search/filter functionality to a separate dynamic route.
+If a page reads `searchParams`, it cannot be statically prerendered at build time. For content pages that should be static, move search/filter functionality to a separate dynamic route. Under Cache Components, read `searchParams` in a component behind `<Suspense>` so the rest of the page stays in the static shell, and guard routes that must stay static with `ensureStatic` ([Cache Components](cache_components.md)).
 
 ## Thresholds
 
@@ -105,3 +107,8 @@ If a page reads `searchParams`, it cannot be statically prerendered at build tim
 | Module-level singletons used | 0% | 0% | >0% |
 | `params` accessed without awaiting | 0% | 0% | >0% |
 | Native modules imported in Edge bundle | 0% | 0% | >0% |
+
+## Sources
+
+- https://nextjs.org/blog/next-16 — async `params`/`searchParams` mandatory, `proxy.ts` on Node.js, `middleware.ts` deprecated for Edge use (2025-10-21; accessed 2026-11-22)
+- https://nextjs.org/blog/next-16-4 — `ensureStatic` (2026-10-06; accessed 2026-11-22)

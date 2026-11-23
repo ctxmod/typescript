@@ -11,15 +11,16 @@ Enable `verbatimModuleSyntax` in all TypeScript configurations. This flag enforc
 ```typescript
 import type { User, Product } from "./types.js";
 import { validateEmail, API_VERSION } from "./utils.js";
+import { createClient, type ClientConfig } from "./client.js"; // inline modifier
 ```
 
-Mixing types and values in a single import statement causes a compiler error when `verbatimModuleSyntax` is enabled. This separation provides three benefits:
+Importing a type without a `type` modifier is a compiler error when `verbatimModuleSyntax` is enabled. A statement may mix values and types as long as each type carries an inline `type` modifier; the type specifiers are dropped and the value import is kept. Prefer a separate `import type` statement when the whole import is type-only, since `import { type A }` still emits `import {} from "..."` and so keeps the module's side effects. This explicit marking provides three benefits:
 
 1. **Side effect safety**: The compiler never removes an import that could trigger side effects, because type imports are explicitly marked for removal.
 2. **Refactoring confidence**: Renaming or deleting a type never accidentally removes a value import from the same module.
 3. **Module system consistency**: The emitted JavaScript contains exactly the imports the developer wrote, with no surprises from type elision.
 
-`verbatimModuleSyntax` replaces the older `isolatedModules` and `importsNotUsedAsValues` flags. Projects still using those flags should migrate.
+`verbatimModuleSyntax` replaces the deprecated `importsNotUsedAsValues` and `preserveValueImports` flags and turns `isolatedModules` on by default. Projects still using the deprecated flags should migrate. Pair it with `erasableSyntaxOnly` wherever source is executed by type stripping (Node.js runs erasable TypeScript natively on every current LTS line), so no construct with runtime semantics — `enum`, value namespaces, parameter properties — reaches a strip-only runtime.
 
 ## File Extensions
 
@@ -28,7 +29,14 @@ Extension requirements depend on the `moduleResolution` setting.
 | Resolution Mode | Extension Required | Typical Use |
 |----------------|-------------------|-------------|
 | `nodenext` | `.js` in all relative imports | Node.js applications, published libraries |
+| `nodenext` + `rewriteRelativeImportExtensions` | `.ts` in all relative imports | Node.js code run from source by type stripping that is also compiled |
 | `bundler` | Optional (extensionless allowed) | Bundler-based applications (Vite, webpack) |
+
+Pick one extension convention per package and hold it: `.js` specifiers for
+code that is only ever compiled, `.ts` specifiers (with
+`rewriteRelativeImportExtensions` rewriting them on emit) for code that also
+runs directly under Node.js type stripping, which requires the real `.ts`
+extension and never resolves a `.js` specifier to a `.ts` file.
 
 With `moduleResolution: "nodenext"`, TypeScript requires the runtime extension (`.js`) even though the source file is `.ts`:
 
@@ -102,3 +110,8 @@ Strict extension requirements add friction during development. Developers writin
 
 - the clarity guidance in the writing_context module (`github.com/ctxmod/writing_context/context`, core profile)
 - [Module Organization](module_organization.md)
+
+## Sources
+
+- https://www.typescriptlang.org/tsconfig/ — `verbatimModuleSyntax` elision rules (inline `type` modifiers, `import {} from` output), `erasableSyntaxOnly`, `rewriteRelativeImportExtensions` (accessed 2026-11-22)
+- https://nodejs.org/api/typescript.html — type stripping requires `.ts` extensions in specifiers; unsupported syntax (Node.js v26.13.1 docs; accessed 2026-11-22)

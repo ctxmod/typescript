@@ -1,8 +1,8 @@
 # Cloudflare Workers Deployment
 
-Deployment workflow for React Router v7 SSR applications on Cloudflare Workers with streaming, security headers, and binding configuration.
+Deployment workflow for React Router v8 (framework mode) SSR applications on Cloudflare Workers with streaming, security headers, and binding configuration.
 
-Procedure for deploying React Router v7 SSR applications to Cloudflare Workers. This covers the Worker fetch handler, streaming SSR configuration, security headers, environment variables, Cloudflare binding integration, and deployment workflow.
+Procedure for deploying React Router v8 (framework mode) SSR applications to Cloudflare Workers. This covers the Worker fetch handler, streaming SSR configuration, security headers, environment variables, Cloudflare binding integration, and deployment workflow.
 
 ## Deployment Architecture
 
@@ -21,30 +21,41 @@ Cloudflare Workers use the Web Streams API (`renderToReadableStream`), not Node.
 
 ### 1. Create Worker Fetch Handler
 
-The Worker entry point receives all incoming requests and delegates to React Router's request handler:
+The Worker entry point receives all incoming requests and delegates to React Router's request handler. Since React Router v8, middleware is always on and the server request context is a `RouterContextProvider` — a plain `{ cloudflare: { env, ctx } }` object is no longer accepted. Declare a typed context once:
+
+```typescript
+// src/cloudflare-context.ts — one module, imported by the worker entry and by routes
+import { createContext } from "react-router";
+
+export const cloudflareContext = createContext<{
+  env: Env;
+  ctx: ExecutionContext;
+}>();
+```
+
+Seed it per request in the worker:
 
 ```typescript
 // workers/app.ts
-import { createRequestHandler } from "react-router";
+import { RouterContextProvider, createRequestHandler } from "react-router";
+import { cloudflareContext } from "../src/cloudflare-context";
 
 const requestHandler = createRequestHandler(
-  // @ts-expect-error virtual module provided by React Router
   () => import("virtual:react-router/server-build"),
   import.meta.env.MODE
 );
 
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext) {
-    const response = await requestHandler(request, {
-      cloudflare: { env, ctx },
-    });
-
+  async fetch(request, env, ctx) {
+    const routerContext = new RouterContextProvider();
+    routerContext.set(cloudflareContext, { env, ctx });
+    const response = await requestHandler(request, routerContext);
     return addSecurityHeaders(response);
   },
 } satisfies ExportedHandler<Env>;
 ```
 
-Pass `env` and `ctx` through the cloudflare context object. Loaders and actions access these via `context.cloudflare.env`.
+Loaders, actions, and middleware read the bindings with `context.get(cloudflareContext).env`. A v7 application still on `context.cloudflare.env` migrates by enabling `future.v8_middleware` first, switching the worker to this shape, and then upgrading, the future-flag path React Router majors are designed around.
 
 ### 2. Configure Streaming SSR Entry
 
@@ -60,7 +71,7 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  routerContext: EntryContext
 ) {
   const userAgent = request.headers.get("user-agent");
   const bot = isbot(userAgent);
@@ -74,7 +85,7 @@ export default async function handleRequest(
   let status = responseStatusCode;
 
   const body = await renderToReadableStream(
-    <ServerRouter context={remixContext} url={request.url} />,
+    <ServerRouter context={routerContext} url={request.url} />,
     {
       signal: controller.signal,
       onError(error: unknown) {
@@ -135,7 +146,7 @@ Declare bindings in `wrangler.jsonc` for Cloudflare services:
 {
   "name": "my-app",
   "main": "workers/app.ts",
-  "compatibility_date": "2025-01-01",
+  "compatibility_date": "2026-11-01", // the latest runtime date the app was tested against
   "kv_namespaces": [
     { "binding": "SESSION_KV", "id": "abc123" }
   ],
@@ -152,7 +163,7 @@ Access bindings in loaders and actions through the context:
 
 ```typescript
 export async function loader({ context }: Route.LoaderArgs) {
-  const { env } = context.cloudflare;
+  const { env } = context.get(cloudflareContext);
   const session = await env.SESSION_KV.get("session-id");
   const users = await env.MY_DB.prepare("SELECT * FROM users").all();
   return { session, users: users.results };
@@ -224,7 +235,7 @@ Monitor loader execution times to catch performance regressions. Set alerts for 
 
 ## Deployment Checklist
 
-- [ ] `workers/app.ts` creates request handler with cloudflare context
+- [ ] `workers/app.ts` seeds a `RouterContextProvider` with the typed Cloudflare context
 - [ ] `entry.server.tsx` uses `renderToReadableStream` (Web Streams API)
 - [ ] Bot detection implemented with differentiated timeouts
 - [ ] Security headers added in Worker fetch handler
@@ -239,3 +250,10 @@ Monitor loader execution times to catch performance regressions. Set alerts for 
 
 - [Deployment](deployment.md)
 - [Environment Setup](environment_setup.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)
+- https://reactrouter.com/changelog — v8.0.1 removed the `AppLoadContext` type (server context is a `RouterContextProvider`); latest v8.5.2 (2026-11-18); RSC APIs still `unstable_` (accessed 2026-11-22)
+- https://reactrouter.com/8.3.1/api/other-api/adapter.md — official Cloudflare entry: `createContext` + `RouterContextProvider` passed to `createRequestHandler` (accessed 2026-11-22)
+- https://developers.cloudflare.com/workers/framework-guides/web-apps/react-router/ — React Router on Workers with `@cloudflare/vite-plugin` (accessed 2026-11-22)

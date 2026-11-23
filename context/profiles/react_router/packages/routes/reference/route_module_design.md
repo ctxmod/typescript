@@ -2,7 +2,7 @@
 
 Route modules as unified full-stack boundaries for data, mutations, UI, and error handling.
 
-Each route module serves as a full-stack boundary encompassing data loading, mutations, UI rendering, and error handling. Route modules are the primary organizational unit in React Router v7 framework mode.
+Each route module serves as a full-stack boundary encompassing data loading, mutations, UI rendering, and error handling. Route modules are the primary organizational unit in React Router v8 (framework mode); the module anatomy below also holds for v7.
 
 - SSOT (engineering module, `principles` profile: `design/reference/ssot.md`)
 - KISS (engineering module, `principles` profile: `design/reference/kiss.md`)
@@ -20,6 +20,8 @@ A route module exports a strict set of functions, each with a defined execution 
 | `clientLoader` | Client only | Browser-specific data (IndexedDB, client SDKs) |
 | `clientAction` | Client only | Browser-specific mutations |
 | `HydrateFallback` | Client only | Loading UI during initial hydration |
+| `middleware` | Server | Request pipeline (auth, locale) that seeds typed context for loaders and actions |
+| `clientMiddleware` | Client only | Navigation pipeline for client loaders and actions |
 
 Server-only exports are stripped from client bundles automatically. React Router generates `Route.ComponentProps`, `Route.LoaderArgs`, and `Route.ActionArgs` types for end-to-end type safety without manual hook typing.
 
@@ -92,3 +94,8 @@ When route modules grow beyond 250 lines, extract components rather than adding 
 - DRY (engineering module, `principles` profile: `design/reference/dry.md`)
 - [Component Composition](../../components/reference/component_composition.md)
 - [State Management](../../components/reference/state_management.md)
+
+## Sources
+
+- https://remix.run/blog/react-router-v8 — React Router v8: Node 22.22+/React 19.2.7+/Vite 7+ baselines, ESM-only, `v8_*` flags adopted, `splitRouteModules` top-level and on by default, `react-router-dom` removed, Cloudflare dev proxy removed for `@cloudflare/vite-plugin`, RSC still unstable (2026-06-17; accessed 2026-11-22)
+- https://reactrouter.com/how-to/middleware — typed `createContext`, `context.get`/`context.set`, `getLoadContext` returning a `RouterContextProvider` (React Router 8.5.2 docs; accessed 2026-11-22)

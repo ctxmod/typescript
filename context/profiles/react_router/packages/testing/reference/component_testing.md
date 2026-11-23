@@ -2,7 +2,7 @@
 
 UI verification workflow for React components — dependency injection, container/presentation split, and route module exercises; behavior claims through checks against the built application.
 
-Procedure for writing and organizing UI checks for React components in a React Router v7 SSR application. Implementation-coupled questions (does this container pass the right props, does this loader map errors correctly) are answered by component and route tests. A working-behavior claim about the real application requires a check that drives the built application from outside, as a user would; component tests alone never establish it. When these checks run (hooks, CI, or explicit invocation) is the repository's test policy.
+Procedure for writing and organizing UI checks for React components in a React Router v8 (framework mode) SSR application. Implementation-coupled questions (does this container pass the right props, does this loader map errors correctly) are answered by component and route tests. A working-behavior claim about the real application requires a check that drives the built application from outside, as a user would; component tests alone never establish it. When these checks run (hooks, CI, or explicit invocation) is the repository's test policy.
 
 ## Testing Scope
 

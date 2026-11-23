@@ -2,7 +2,7 @@ extends:
   - github.com/ctxmod/typescript/context/profiles/core
 title: TypeScript — Next.js
 description: >-
-  Next.js App Router applications, extending the TypeScript core with
+  Next.js 16 App Router applications, extending the TypeScript core with
   framework-specific conventions.
 packages:
   add:

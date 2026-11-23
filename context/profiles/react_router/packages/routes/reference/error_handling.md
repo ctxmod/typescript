@@ -2,11 +2,11 @@
 
 Workflow for implementing route-granular error boundaries, fallback UIs, and server-side error logging.
 
-Procedure for implementing error boundaries in React Router v7 route modules. Error boundaries catch failures at the nearest route level, preventing full-page crashes and providing contextual error UIs. This procedure covers route-level boundaries, root fallbacks, error type discrimination, and server-side logging.
+Procedure for implementing error boundaries in React Router v8 (framework mode) route modules. Error boundaries catch failures at the nearest route level, preventing full-page crashes and providing contextual error UIs. This procedure covers route-level boundaries, root fallbacks, error type discrimination, and server-side logging.
 
 ## Error Architecture
 
-React Router v7 propagates errors to the nearest route that exports an `ErrorBoundary`. If no ancestor route exports one, the root error boundary catches it. Each route should define its own boundary to keep error UIs contextual: a missing product shows "Product not found," not a generic application error.
+React Router propagates errors to the nearest route that exports an `ErrorBoundary`. If no ancestor route exports one, the root error boundary catches it. Each route should define its own boundary to keep error UIs contextual: a missing product shows "Product not found," not a generic application error.
 
 ### Error Flow
 
@@ -157,7 +157,7 @@ Log errors in the server entry point with contextual information:
 // entry.server.tsx
 const body = await renderToReadableStream(
   <I18nextProvider i18n={i18n}>
-    <ServerRouter context={remixContext} url={request.url} />
+    <ServerRouter context={routerContext} url={request.url} />
   </I18nextProvider>,
   {
     onError(error: unknown) {

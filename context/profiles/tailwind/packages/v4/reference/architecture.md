@@ -8,7 +8,7 @@ Globals.css structure, theme namespaces, and dark mode.
 
 ```css
 @import "tailwindcss";
-@import "@tailwindcss/typography";
+@plugin "@tailwindcss/typography";
 
 @theme inline {
   --color-background: var(--background);
@@ -33,7 +33,7 @@ Globals.css structure, theme namespaces, and dark mode.
 }
 ```
 
-Order matters: `@import "tailwindcss"` must come first, `@theme` after the import to override defaults, `@layer` blocks can appear anywhere after the import.
+Order matters: `@import "tailwindcss"` must come first (CSS requires `@import` before other rules; `@plugin` follows it), `@theme` after the import to override defaults, `@layer` blocks can appear anywhere after the import.
 
 ## Theme Variable Namespaces
 
@@ -107,3 +107,7 @@ Tailwind v4 scans all project files except `.gitignore`d paths, `node_modules`, 
 | `@theme` namespace misuse | 0 | 0 | >0 |
 
 - KISS (engineering module, `principles` profile: `design/reference/kiss.md`)
+
+## Sources
+
+- https://tailwindcss.com/docs/functions-and-directives — `@plugin` for JS plugins, `@config` for legacy JS config, `@source`, `@reference`, `@variant`, `@utility`, `--alpha()`, `--spacing()`, `theme()` deprecated (accessed 2026-11-22)

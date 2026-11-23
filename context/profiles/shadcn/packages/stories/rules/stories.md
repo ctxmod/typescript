@@ -10,10 +10,10 @@ paths:
 
 # Story File Context
 
-Ladle story patterns, setup, and development procedures for component story files.
+Storybook story patterns, setup, and development procedures for component story files.
 
-Ladle story patterns define story structure, args/controls, and decorators. Setup covers Ladle configuration and Tailwind v4 integration. The story development procedure details the creation workflow.
+Stories use Component Story Format 3 (`Meta`/`StoryObj` from `@storybook/react-vite`, or CSF Factories adopted repository-wide), cover the CVA variant matrix, carry `play` interaction tests for interactive components, and run as Vitest tests with accessibility checks at `error` level.
 
-- [Ladle Stories](../reference/ladle_stories.md)
-- [Ladle Setup](../reference/ladle_setup.md)
+- [Story Patterns](../reference/story_patterns.md)
+- [Storybook Setup](../reference/storybook_setup.md)
 - [Story Development](../reference/story_development.md)

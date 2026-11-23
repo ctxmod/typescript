@@ -18,7 +18,9 @@ Tailwind CSS v4 replaces the need for a CSS preprocessor. Using alongside prepro
 
 ## Breaking API Changes
 
-**`theme()` function removed**
+**`theme()` dot notation gives way to CSS variables**
+
+The `theme()` function is deprecated; reference theme variables directly. Where a variable cannot be used — media queries — `theme()` takes the variable name instead of dot notation:
 
 ```css
 /* v3 */
@@ -58,7 +60,7 @@ transition-[opacity,scale]
 
 **Border color default changed**
 
-`bg-*` and `divide-*` default border color changed from `gray-200` to `currentColor`. This silently changes appearance for elements using these utilities without explicit colors.
+`border-*` and `divide-*` utilities default to `currentColor` instead of `gray-200`. This silently changes appearance for elements using these utilities without explicit colors; give each a color, or restore v3 behavior with a `@layer base` rule setting `border-color: var(--color-gray-200, currentColor)` on `*, ::after, ::before, ::backdrop, ::file-selector-button`.
 
 **`@apply` in bundled stylesheets requires `@reference`**
 
@@ -71,8 +73,10 @@ Without it, `@apply` fails against custom class names.
 
 ## Migration Checklist
 
+- [ ] Run `npx @tailwindcss/upgrade` (Node.js 20+) on a branch and review the diff
 - [ ] Replace `@tailwind` directives with `@import "tailwindcss"`
-- [ ] Move `tailwind.config.js` tokens to `@theme` blocks in CSS
+- [ ] Move `tailwind.config.js` tokens to `@theme` blocks in CSS (or load it with `@config` temporarily)
+- [ ] Load JS plugins with `@plugin`
 - [ ] Update `@tailwindcss/postcss` in PostCSS config
 - [ ] Remove `postcss-import` and `autoprefixer` (handled automatically)
 - [ ] Fix `!` modifier placement (prefix → suffix)
@@ -80,7 +84,7 @@ Without it, `@apply` fails against custom class names.
 - [ ] Fix comma-separated arbitrary values (commas → underscores)
 - [ ] Replace `*-opacity-*` with slash syntax
 - [ ] Update shadow/blur/radius scale names
-- [ ] Replace `theme()` with CSS variable references
+- [ ] Replace `theme()` with CSS variable references (`theme(--breakpoint-*)` only where variables cannot be used)
 - [ ] Add `@custom-variant dark` if using class-based dark mode
 - [ ] Fix `hover:` behavior for touch devices if needed
 - [ ] Add `@reference` to bundled stylesheets using `@apply`
@@ -92,3 +96,8 @@ Without it, `@apply` fails against custom class names.
 |--------|------|------|------|
 | v3 syntax patterns remaining | 0 | 1-3 | >3 |
 | `tailwind.config.js` present | 0 | 0 | >0 |
+
+## Sources
+
+- https://tailwindcss.com/docs/upgrade-guide — browser floor, `border-*`/`divide-*` default `currentColor`, `theme(--breakpoint-xl)` in media queries, JS config not auto-detected, `npx @tailwindcss/upgrade` on Node.js 20+ (accessed 2026-11-22)
+- https://tailwindcss.com/docs/functions-and-directives — `@plugin` for JS plugins, `@config` for legacy JS config, `@source`, `@reference`, `@variant`, `@utility`, `--alpha()`, `--spacing()`, `theme()` deprecated (accessed 2026-11-22)
