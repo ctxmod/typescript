@@ -4,3 +4,8 @@ description: >-
   Event, Projection, Action, Receipt, Audit Record, Telemetry, the three
   idempotency levels, and revisions.
 binds_to_depth: main...
+prompt: |
+  # TypeScript
+
+  This module's rules load once the session reads or writes a file type they govern: TypeScript source, `package.json` and `tsconfig*.json`, plus CSS and framework config in the framework profiles. Even the first TypeScript file sends server reads and mutations through the generated client, never a hand-written fetch wrapper, and imports a package only through its entry point, never its subfolders.
+  The on-demand references are indexed in `context/profiles/core/packages/architecture/reference/overview.md` in the github.com/ctxmod/typescript repository.

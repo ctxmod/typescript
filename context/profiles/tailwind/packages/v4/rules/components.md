@@ -1,3 +1,17 @@
+---
+paths:
+  - "*.css"
+  - "*/*.css"
+  - "*/*/*.css"
+  - "*/*/*/*.css"
+  - "*/*/*/*/*.css"
+  - "*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*/*.css"
+---
+
 # Tailwind v4 Component Styling Context
 
 Tailwind CSS v4 component styling with @utility, @layer components, and @variant.

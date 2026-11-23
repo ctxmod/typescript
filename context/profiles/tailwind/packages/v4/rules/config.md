@@ -1,3 +1,37 @@
+---
+paths:
+  - "*.css"
+  - "*/*.css"
+  - "*/*/*.css"
+  - "*/*/*/*.css"
+  - "*/*/*/*/*.css"
+  - "*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*.css"
+  - "*/*/*/*/*/*/*/*/*/*.css"
+  - "postcss.config.*"
+  - "*/postcss.config.*"
+  - "*/*/postcss.config.*"
+  - "*/*/*/postcss.config.*"
+  - "*/*/*/*/postcss.config.*"
+  - "*/*/*/*/*/postcss.config.*"
+  - "*/*/*/*/*/*/postcss.config.*"
+  - "*/*/*/*/*/*/*/postcss.config.*"
+  - "*/*/*/*/*/*/*/*/postcss.config.*"
+  - "*/*/*/*/*/*/*/*/*/postcss.config.*"
+  - "vite.config.*"
+  - "*/vite.config.*"
+  - "*/*/vite.config.*"
+  - "*/*/*/vite.config.*"
+  - "*/*/*/*/vite.config.*"
+  - "*/*/*/*/*/vite.config.*"
+  - "*/*/*/*/*/*/vite.config.*"
+  - "*/*/*/*/*/*/*/vite.config.*"
+  - "*/*/*/*/*/*/*/*/vite.config.*"
+  - "*/*/*/*/*/*/*/*/*/vite.config.*"
+---
+
 # Tailwind v4 Configuration Context
 
 Tailwind CSS v4 CSS-first configuration via @import, @theme, and @theme inline.

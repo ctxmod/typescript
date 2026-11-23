@@ -1,3 +1,27 @@
+---
+paths:
+  - "*.tsx"
+  - "*/*.tsx"
+  - "*/*/*.tsx"
+  - "*/*/*/*.tsx"
+  - "*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*/*/*.tsx"
+  - "*.jsx"
+  - "*/*.jsx"
+  - "*/*/*.jsx"
+  - "*/*/*/*.jsx"
+  - "*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*/*/*.jsx"
+---
+
 # Component Context
 
 Component composition, directory structure, styling, and implementation procedures for React component files.

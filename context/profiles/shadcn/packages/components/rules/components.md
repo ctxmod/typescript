@@ -1,3 +1,27 @@
+---
+paths:
+  - "*.tsx"
+  - "*/*.tsx"
+  - "*/*/*.tsx"
+  - "*/*/*/*.tsx"
+  - "*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*/*.tsx"
+  - "*/*/*/*/*/*/*/*/*/*.tsx"
+  - "*.jsx"
+  - "*/*.jsx"
+  - "*/*/*.jsx"
+  - "*/*/*/*.jsx"
+  - "*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*/*.jsx"
+  - "*/*/*/*/*/*/*/*/*/*.jsx"
+---
+
 # shadcn Component Context
 
 Shadcn/ui integration and design token architecture for component files.
