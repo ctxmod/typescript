@@ -1,11 +1,3 @@
----
-paths:
-  - "*.ts"
-  - "*.tsx"
-  - "*.mts"
-  - "*.cts"
----
-
 # ECMAScript Application Source
 
 ECMAScript module organization, import conventions, and application development for app source files.

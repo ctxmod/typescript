@@ -1,11 +1,3 @@
----
-paths:
-  - "*.ts"
-  - "*.tsx"
-  - "*.mts"
-  - "*.cts"
----
-
 # Module Boundaries
 
 Deep-module design, deepening, and enforced dependency boundaries govern how TypeScript package source exposes behaviour and where its seams sit.

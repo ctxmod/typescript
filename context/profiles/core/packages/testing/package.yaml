@@ -1,3 +1,8 @@
 description: >-
   Test-driven development, test effectiveness, test-data partials, test execution, and local server lifecycle.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"

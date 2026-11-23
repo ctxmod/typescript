@@ -1,3 +1,19 @@
 description: >-
   The fast lint/format toolchain (Biome or Oxlint), monorepo orchestration, project setup, compiler configuration and the native TypeScript 7 compiler, TypeScript validation, scratch probes, and Vite plugin development.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"
+  - "package.json"
+  - "tsconfig.json"
+  - "tsconfig.*.json"
+  - "pnpm-workspace.yaml"
+  - "turbo.json"
+  - "nx.json"
+  - "biome.json"
+  - "biome.jsonc"
+  - ".oxlintrc.json"
+  - ".oxfmtrc.json"
+  - "vite.config.*"

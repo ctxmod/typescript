@@ -1,11 +1,3 @@
----
-paths:
-  - "*.ts"
-  - "*.tsx"
-  - "*.mts"
-  - "*.cts"
----
-
 # ECMAScript Package Source
 
 ECMAScript module organization, import conventions, and package development for package source files.
