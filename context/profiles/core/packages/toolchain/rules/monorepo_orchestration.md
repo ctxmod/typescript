@@ -1,23 +1,8 @@
 ---
 paths:
   - "pnpm-workspace.yaml"
-  - "*/pnpm-workspace.yaml"
-  - "*/*/pnpm-workspace.yaml"
-  - "*/*/*/pnpm-workspace.yaml"
-  - "*/*/*/*/pnpm-workspace.yaml"
-  - "*/*/*/*/*/pnpm-workspace.yaml"
   - "turbo.json"
-  - "*/turbo.json"
-  - "*/*/turbo.json"
-  - "*/*/*/turbo.json"
-  - "*/*/*/*/turbo.json"
-  - "*/*/*/*/*/turbo.json"
   - "nx.json"
-  - "*/nx.json"
-  - "*/*/nx.json"
-  - "*/*/*/nx.json"
-  - "*/*/*/*/nx.json"
-  - "*/*/*/*/*/nx.json"
 ---
 
 # ECMAScript Monorepo Orchestration

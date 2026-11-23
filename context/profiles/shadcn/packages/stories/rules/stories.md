@@ -1,11 +1,6 @@
 ---
 paths:
   - "*.stories.tsx"
-  - "*/*.stories.tsx"
-  - "*/*/*.stories.tsx"
-  - "*/*/*/*.stories.tsx"
-  - "*/*/*/*/*.stories.tsx"
-  - "*/*/*/*/*/*.stories.tsx"
 ---
 
 # Story File Context

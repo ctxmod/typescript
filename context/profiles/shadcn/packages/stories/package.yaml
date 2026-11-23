@@ -1,3 +1,6 @@
 description: >-
   Storybook setup, configuration, stories, interaction and accessibility tests, and story development for components.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.stories.tsx"
+  - "**/.storybook/**"

@@ -1,11 +1,6 @@
 ---
 paths:
   - "package.json"
-  - "*/package.json"
-  - "*/*/package.json"
-  - "*/*/*/package.json"
-  - "*/*/*/*/package.json"
-  - "*/*/*/*/*/package.json"
 ---
 
 # ECMAScript Package Configuration

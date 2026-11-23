@@ -1,3 +1,8 @@
 description: >-
   Internationalization for React Router applications.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"
