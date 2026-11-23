@@ -1,20 +1,6 @@
 ---
 paths:
-  - "app/route.ts"
-  - "app/*/route.ts"
-  - "app/*/*/route.ts"
-  - "app/*/*/*/route.ts"
-  - "app/*/*/*/*/route.ts"
-  - "*/app/route.ts"
-  - "*/app/*/route.ts"
-  - "*/app/*/*/route.ts"
-  - "*/app/*/*/*/route.ts"
-  - "*/*/app/route.ts"
-  - "*/*/app/*/route.ts"
-  - "*/*/app/*/*/route.ts"
-  - "*/*/*/app/route.ts"
-  - "*/*/*/app/*/route.ts"
-  - "*/*/*/*/app/route.ts"
+  - "**/app/**/route.ts"
 ---
 
 # Route Handler Context

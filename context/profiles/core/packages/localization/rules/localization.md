@@ -1,20 +1,6 @@
 ---
 paths:
-  - "intl/*"
-  - "intl/*/*"
-  - "intl/*/*/*"
-  - "intl/*/*/*/*"
-  - "intl/*/*/*/*/*"
-  - "*/intl/*"
-  - "*/intl/*/*"
-  - "*/intl/*/*/*"
-  - "*/intl/*/*/*/*"
-  - "*/*/intl/*"
-  - "*/*/intl/*/*"
-  - "*/*/intl/*/*/*"
-  - "*/*/*/intl/*"
-  - "*/*/*/intl/*/*"
-  - "*/*/*/*/intl/*"
+  - "/intl/**"
 ---
 
 # ECMAScript Localization

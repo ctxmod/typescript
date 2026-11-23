@@ -1,3 +1,7 @@
 description: >-
   React component composition, directory structure, state management, styling philosophy, and component planning and styling.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.tsx"
+  - "*.jsx"
+  - "*.css"

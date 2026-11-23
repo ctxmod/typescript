@@ -1,29 +1,9 @@
 ---
 paths:
   - "*.test.ts"
-  - "*/*.test.ts"
-  - "*/*/*.test.ts"
-  - "*/*/*/*.test.ts"
-  - "*/*/*/*/*.test.ts"
-  - "*/*/*/*/*/*.test.ts"
   - "*.test.tsx"
-  - "*/*.test.tsx"
-  - "*/*/*.test.tsx"
-  - "*/*/*/*.test.tsx"
-  - "*/*/*/*/*.test.tsx"
-  - "*/*/*/*/*/*.test.tsx"
   - "*.spec.ts"
-  - "*/*.spec.ts"
-  - "*/*/*.spec.ts"
-  - "*/*/*/*.spec.ts"
-  - "*/*/*/*/*.spec.ts"
-  - "*/*/*/*/*/*.spec.ts"
   - "*.spec.tsx"
-  - "*/*.spec.tsx"
-  - "*/*/*.spec.tsx"
-  - "*/*/*/*.spec.tsx"
-  - "*/*/*/*/*.spec.tsx"
-  - "*/*/*/*/*/*.spec.tsx"
 ---
 
 # Testing

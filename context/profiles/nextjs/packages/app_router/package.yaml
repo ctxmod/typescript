@@ -1,3 +1,9 @@
 description: >-
   Next.js 16 App Router: server and client components, Cache Components, route handlers, proxy and configuration files, and common pitfalls.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"
+  - "next.config.*"

@@ -1,3 +1,11 @@
 description: >-
   Deploying React Router applications to Cloudflare Workers and setting up their environments.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"
+  - "wrangler.toml"
+  - "wrangler.json"
+  - "wrangler.jsonc"

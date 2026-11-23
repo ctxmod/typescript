@@ -1,17 +1,7 @@
 ---
 paths:
   - "tsconfig.json"
-  - "*/tsconfig.json"
-  - "*/*/tsconfig.json"
-  - "*/*/*/tsconfig.json"
-  - "*/*/*/*/tsconfig.json"
-  - "*/*/*/*/*/tsconfig.json"
   - "tsconfig.*.json"
-  - "*/tsconfig.*.json"
-  - "*/*/tsconfig.*.json"
-  - "*/*/*/tsconfig.*.json"
-  - "*/*/*/*/tsconfig.*.json"
-  - "*/*/*/*/*/tsconfig.*.json"
 ---
 
 # TypeScript Compiler Configuration

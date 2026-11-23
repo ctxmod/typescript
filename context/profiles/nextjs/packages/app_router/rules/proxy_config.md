@@ -2,22 +2,8 @@
 paths:
   - "proxy.ts"
   - "middleware.ts"
-  - "next.config.ts"
-  - "next.config.js"
-  - "next.config.mjs"
-  - "instrumentation.ts"
-  - "instrumentation-node.ts"
-  - "src/proxy.ts"
-  - "src/middleware.ts"
-  - "src/instrumentation.ts"
-  - "src/instrumentation-node.ts"
-  - "*/*/proxy.ts"
-  - "*/*/middleware.ts"
-  - "*/*/next.config.ts"
-  - "*/*/next.config.js"
-  - "*/*/next.config.mjs"
-  - "*/*/instrumentation.ts"
-  - "*/*/instrumentation-node.ts"
+  - "next.config.*"
+  - "instrumentation*.ts"
 ---
 
 # Proxy, Configuration, and Instrumentation Context

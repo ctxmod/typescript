@@ -1,3 +1,7 @@
 description: >-
   shadcn/ui integration and design-token architecture for component libraries.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.tsx"
+  - "*.jsx"
+  - "*.css"

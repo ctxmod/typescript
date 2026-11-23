@@ -1,15 +1,6 @@
 ---
 paths:
-  - ".storybook/*"
-  - ".storybook/*/*"
-  - "*/.storybook/*"
-  - "*/.storybook/*/*"
-  - "*/*/.storybook/*"
-  - "*/*/.storybook/*/*"
-  - "*/*/*/.storybook/*"
-  - "*/*/*/.storybook/*/*"
-  - "*/*/*/*/.storybook/*"
-  - "*/*/*/*/.storybook/*/*"
+  - "**/.storybook/**"
 ---
 
 # Storybook Configuration Context
