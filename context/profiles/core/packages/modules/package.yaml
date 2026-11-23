@@ -1,3 +1,8 @@
 description: >-
   Module organization, import and export conventions, deep modules, deepening shallow modules, interface alternatives, dependency boundaries and analysis, and application and package development.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"

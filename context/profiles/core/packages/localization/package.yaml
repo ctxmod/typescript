@@ -1,3 +1,9 @@
 description: >-
   Locale strategies, message catalogs, locale text canonicalization, and the localization compile pipeline.
 binds_to_depth: main...
+binds_to_paths:
+  - "*.ts"
+  - "*.tsx"
+  - "*.mts"
+  - "*.cts"
+  - "/intl/**"

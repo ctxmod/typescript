@@ -7,5 +7,5 @@ binds_to_depth: main...
 prompt: |
   # TypeScript
 
-  This module's rules, and the Next.js, React Router, shadcn and Tailwind packages, load once the session reads or writes a file type they govern: TypeScript source, `package.json` and `tsconfig*.json`, plus CSS and framework config in the framework profiles. Even the first TypeScript file sends server reads and mutations through the generated client, never a hand-written fetch wrapper, and imports a package only through its entry point, never its subfolders.
-  The on-demand references are indexed in `context/profiles/core/packages/architecture/reference/overview.md` in the github.com/ctxmod/typescript repository.
+  This module's rules, and the Next.js, React Router, shadcn and Tailwind packages, load once the session reads or writes a file type they govern: TypeScript source, `package.json`, `tsconfig*.json` and the lint, format and workspace config files, plus CSS and framework config in the framework profiles. Even the first TypeScript file sends server reads and mutations through the generated client, never a hand-written fetch wrapper, and imports a package only through its entry point, never its subfolders.
+  The on-demand references, including the project setup to follow before a new package's first file, are indexed in `context/profiles/core/packages/architecture/reference/overview.md` in the github.com/ctxmod/typescript repository.
